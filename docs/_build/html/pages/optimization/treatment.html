@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Water Management Model - Stability Features &mdash; Ecopetrol Water Management 2022 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]]}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Injection" href="injection.html" />
+    <link rel="prev" title="Optimization Models" href="../opt_models.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> Ecopetrol Water Management
+          </a>
+              <div class="version">
+                1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../model_doc.html">Model Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../opt_models.html">Optimization Models</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Water Management Model - Stability Features</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#water-mix-stability">Water Mix Stability</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#disposal-stability">Disposal Stability</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pond-stability">Pond Stability</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#treatment">Treatment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id6">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sets">Sets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#decision-variables">Decision variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#objective-functions">Objective functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#hierarchical-optimization">Hierarchical optimization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#constraints">Constraints</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="injection.html">Injection</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pred_models.html">Predictive Models</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../developer_doc.html">Developer Documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Ecopetrol Water Management</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../model_doc.html">Model Documentation</a></li>
+          <li class="breadcrumb-item"><a href="../opt_models.html">Optimization Models</a></li>
+      <li class="breadcrumb-item active">Water Management Model - Stability Features</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/pages/optimization/treatment.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="water-management-model-stability-features">
+<h1>Water Management Model - Stability Features<a class="headerlink" href="#water-management-model-stability-features" title="Permalink to this heading"></a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h2>
+<p>This pages describes the different modules that exists in the water management model. It includes the changes that were made to the actual version of the model/code, the context, the reasons, the limitations.</p>
+<p>Stability brings uniformity in the decision the model takes across multiple days. It simplifies the adoption and implementation of the model’s results by removing part of the variability.
+Simple example of stability between two decisions across 10 days​:</p>
+<ul class="simple">
+<li><p>We can only take each decision (A or B) 5 times​</p></li>
+<li><p>Decision A and B are equivalent (cost, value, etc)​</p></li>
+</ul>
+<img alt="../../_images/watermixstability_intro.png" src="../../_images/watermixstability_intro.png" />
+</section>
+<section id="water-mix-stability">
+<h2>Water Mix Stability<a class="headerlink" href="#water-mix-stability" title="Permalink to this heading"></a></h2>
+<section id="objective-of-the-feature">
+<h3>Objective of the feature<a class="headerlink" href="#objective-of-the-feature" title="Permalink to this heading"></a></h3>
+<p>This feature only applies to the PERMIAN asset.</p>
+<p>Its objective is to keep a constant mix of the different types (PRODUCED and BRACKISH) of water during a job. A job is a series of time periods with a positive demand. When the demand becomes 0, the job stops. For example, if a job lasts 5 days and for the first period, the model decides to use 20% of PRODUCED and 80% of BRACKISH, it will be incentivized to keep those proportions throughout those 5 days. There is also an extra incentive to only use one type of water instead of 2 (reducing the costs), so 100% PRODUCED or 100% BRACKISH and then keep the 100% of one until the end of the job.</p>
+<p>This will be applied to all the water mix stability mixers (one per demand, in orange in the picture below) right before supplying the demand in the water map.</p>
+<img alt="../../_images/stability_on_watermap.png" src="../../_images/stability_on_watermap.png" />
+<p>Taking the example of this mixer for the demand “COMPLETIONS_FRAC_2_NORTH”, where blue line = produced water (recycled, clean) and black line = brackish water and where the number of barrels for the Blue and Black lines are 2 decision variables in the model.
+The first idea to implement the water mix stability was to make the PROPORTION (Blue/(Blue+Black) and Black/(Blue+Black) as close as possible throughout each job to ensure the water mix stability. However, this solution has 2 potential problems that are hard to solve:</p>
+<ol class="arabic simple">
+<li><p>It divides one decision variable by the sum of 2 decision variables, making it NON-LINEAR and could potentially explode the running time of the model</p></li>
+<li><p>This division will generate an error when the demand is 0, as the model will put black and blue to 0 to respect the demand and thus, dividing by 0 is not possible.</p></li>
+</ol>
+<p>In the end, the water mix stability feature targets the ABSOLUTE value on the arcs. So if the model decides to put 100.000 barrels of PRODUCED for period 1, it should use 100.000 barrels of PRODUCED for period 2 as well. By keeping the absolute values the same throughout each period, we ensure the same proportions as well. This works pretty well as long as the demand remains constant. However, if the demand changes, the model will be forced to reduce or increase the quantities and thus, the proportions might not remain the same as the previous period. This is the limitation of the model.</p>
+<img alt="../../_images/watermixstability_example_table.png" src="../../_images/watermixstability_example_table.png" />
+<p>Here is an example from the model results on the Permian Asset, demonstrating the water mix stability as well as its limitations. You can clearly see that for a same job, the proportion of produced and brackish water remains the same. The only exception that occurs is when the demand changes (the height of the bar changes), then you see that the proportion might change as well.</p>
+<img alt="../../_images/watermixstability_example.png" src="../../_images/watermixstability_example.png" />
+</section>
+<section id="what-was-added">
+<h3>What was added:<a class="headerlink" href="#what-was-added" title="Permalink to this heading"></a></h3>
+<p>In the config file, a new column “WaterMixStability” has been added to the “Mixer_Nodes” tab, with value “Y” and “N”. All arcs going to a node with “Y” will be in scope of the water mix stability.</p>
+<p>In the latest configuration_file, here are the mixers and their incoming arcs targeted for Water Mix Stability:</p>
+<img alt="../../_images/watermix_configfile.png" src="../../_images/watermix_configfile.png" />
+<p>We introduced 2 slacks variable that are necessary to allow the model to not respect the fact that water in time t is equal to the one in time t-1, if it cannot do otherwise for diverse reasons (mainly demand changes).
+The goal of the model will be to minimize the sum of slack_positive and slack_negative, thus making them 0, so that x_t – x_t-1 = 0.</p>
+<ul class="simple">
+<li><p>A new set: <strong>WMA</strong> <span class="math notranslate nohighlight">\(\subset A\)</span>: Subset of arcs that represent arcs involved in water mix stability in the network superstructure, k <span class="math notranslate nohighlight">\(\in\)</span> {0,1,…,WMA}. They represent all the arcs coming into a mixer_node where its “WaterMixStability” characteristic is “Y”.</p></li>
+<li><p>A new arc decision variable: <span class="math notranslate nohighlight">\(x^{slack+watermix}_{i,j,t}\)</span>: Is the value of positive slack variable used for water mix stability for arc <span class="math notranslate nohighlight">\({(i,j)}\)</span> during time period <span class="math notranslate nohighlight">\({t}\)</span>
+<span class="math notranslate nohighlight">\(\forall (i,j) \in WMA \subset A, \forall t \in T\)</span></p></li>
+<li><p>A new arc decision variable: <span class="math notranslate nohighlight">\(x^{slack-watermix}_{i,j,t}\)</span>: Is the value of negative slack variable used for water mix stability for arc <span class="math notranslate nohighlight">\({(i,j)}\)</span> during time period <span class="math notranslate nohighlight">\({t}\)</span>
+<span class="math notranslate nohighlight">\(\forall (i,j) \in WMA \subset A, \forall t \in T\)</span></p></li>
+<li><p>A new arc decision variable: <span class="math notranslate nohighlight">\(x^{activearcwatermix}_{i,j,t}\)</span>: Is the value (1 or 0) of active arc used for water mix stability for arc <span class="math notranslate nohighlight">\({(i,j)}\)</span> during time period <span class="math notranslate nohighlight">\({t}\)</span>
+<span class="math notranslate nohighlight">\(\forall (i,j) \in WMA \subset A, \forall t \in T\)</span></p></li>
+<li><p>A new objective function: Minimize water mix stability slack variables:  <span class="raw-html-md"><br /></span>
+<div class="math notranslate nohighlight">
+\[\ Z = \sum_{t \in T} \sum_{(i,j) \in WMA \subset A} x_{i,j,t}^{slack+watermix} + x_{i,j,t}^{slack-watermix} + x_{i,j,t}^{activearcwatermix}\]</div>
+</p></li>
+<li><p>A new constraint: 1.6.1. Water Mix Stability:</p></li>
+</ul>
+<p><div class="math notranslate nohighlight">
+\[x_{i,j,t}^{water} - x_{i,j,t-1}^{water} = x_{i,j,t}^{slack+watermix} - x_{i,j,t}^{slack-watermix}, t &gt; 1, \forall (i,j) \in WMA \subset A\]</div>
+</p>
+<ul class="simple">
+<li><p>3 non-negativity additional constraints:</p></li>
+</ul>
+<p><div class="math notranslate nohighlight">
+\[x_{i,j,t}^{slack+watermix} \geq 0, \forall (i,j) \in WMA, \forall t \in T\]</div>
+
+<div class="math notranslate nohighlight">
+\[x_{i,j,t}^{slack-watermix} \geq 0, \forall (i,j) \in WMA, \forall t \in T\]</div>
+
+<div class="math notranslate nohighlight">
+\[x^{activearcwatermix}_{i,j,t} \in {0,1},\forall (i,j) \in WMA, \forall t \in T\]</div>
+</p>
+</section>
+</section>
+<section id="disposal-stability">
+<h2>Disposal Stability<a class="headerlink" href="#disposal-stability" title="Permalink to this heading"></a></h2>
+<p>This feature only applies to the PERMIAN asset.</p>
+<p>This will be applied to all the disposal stability mixers (one for each disposal demand).</p>
+<img alt="../../_images/disposalstability_on_watermap.png" src="../../_images/disposalstability_on_watermap.png" />
+<p>The objective of this feature is to smoothen the disposal of produced water by the model. Without this feature, the model disposes in a “on/off” way the water that the recycling facility cannot handle. So it disposes a lot on a day, then nothing the other, then again a lot 3 days later etc. In reality, the water is disposed continuously in very similar amounts. This is achieved with this feature, simply using what has been built for Water Mix Stability. The only difference here is that the goal is to get the same amount of water disposed period after period. There is no concept of job or proportions here.</p>
+<p>Here is an example of what the disposal stability achieves. You can clearly see that as of period 80, the model disposes 40,000 barrels of water every day, instead of disposing water from time to time, in much bigger batches, sometimes up to 80,000 barrels.</p>
+<img alt="../../_images/disposalstability_example.png" src="../../_images/disposalstability_example.png" />
+<section id="id1">
+<h3>What was added:<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
+<p>In the config file, a new column “WaterMixStability_LowPriority” has been added to the “Mixer_Nodes” tab, with value “Y” and “N”. All arcs going to a node with “Y” will be in scope of the disposal stability.</p>
+<p>In the latest configuration_file, here are the mixers and their incoming arcs targeted for Disposal Stability:</p>
+<img alt="../../_images/disposalstability_configfile.png" src="../../_images/disposalstability_configfile.png" />
+<ul class="simple">
+<li><p>A new set: <strong>WMALP</strong> <span class="math notranslate nohighlight">\(\subset A\)</span>: Subset of arcs that represent arcs involved in water mix stability in the network superstructure, k <span class="math notranslate nohighlight">\(\in\)</span> {0,1,…,WMALP}. They represent all the arcs coming into a mixer_node where its “WaterMixStability” characteristic is “Y”.</p></li>
+<li><p>A new objective function: Minimize water mix stability low priority (disposal stability) slack variables:  <span class="raw-html-md"><br /></span>
+<div class="math notranslate nohighlight">
+\[\ Z = \sum_{t \in T} \sum_{(i,j) \in WMALP \subset A} x_{i,j,t}^{slack+watermix} + x_{i,j,t}^{slack-watermix} + x_{i,j,t}^{activearcwatermix}\]</div>
+</p></li>
+</ul>
+<p>All decision variables and constraints have been built in the exact same way as water mix stability, but on the subset <a href="#id2"><span class="problematic" id="id3">**</span></a>WMALP* of arcs.</p>
+</section>
+</section>
+<section id="pond-stability">
+<h2>Pond Stability<a class="headerlink" href="#pond-stability" title="Permalink to this heading"></a></h2>
+<section id="id4">
+<h3>Objective of the feature<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
+<p>This feature only applies to the PERMIAN asset.</p>
+<p>This will be applied to all the pond stability mixers (one per type of water, in purple in the picture below) right before the water mix stability mixers in the water map.</p>
+<img alt="../../_images/stability_on_watermap.png" src="../../_images/stability_on_watermap.png" />
+<p>Its objective of the pond stability feature is to use the same source pond for the total period of a job. Similarly to the water mix stability.
+So if at the beginning of the job, the model decides to use POND 1 as the source of water, it should use this one, in priority, until the end. It is possible that the model decides to use 2 different ponds to supply the water in order to fulfill the demand but it also has an incentive to use only 1.
+The pond stability is applied PER TYPE of water, meaning, if the model needs to use PRODUCED and BRACKISH for a job, it will be incentivized to use only 1 pond for PRODUCED and 1 pond for BRACKISH. The fact that the model should use ONE TYPE of water to fulfill a job is accomplished by the Water Mix Stability.</p>
+<p>Here is an example of model results demonstrating the difference when Pond Stability is applied or not. You see that the number of different ponds used for each type of water (Produced and Brackish) has significantly decreased for each job. Obviously, each improvement comes with a cost, so the pond stability makes the cost go a bit higher. This is due to the fact that to be able to supply water for one pond, water from the other ponds need to be transfered to the pond used, at a certain cost.</p>
+<img alt="../../_images/pondstability_example.png" src="../../_images/pondstability_example.png" />
+</section>
+<section id="id5">
+<h3>What was added:<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
+<p>In the config file, a new column “PondStability” has been added to the “Mixer_Nodes” tab, with value “Y” and “N”. All arcs going to a node with “Y” will be in scope of the pond stability.</p>
+<p>In the latest configuration_file, here are the mixers and their incoming arcs targeted for Water Mix Stability:</p>
+<img alt="../../_images/pondstability_configfile.png" src="../../_images/pondstability_configfile.png" />
+<ul class="simple">
+<li><p>A new set: <strong>PSA</strong> <span class="math notranslate nohighlight">\(\subset A\)</span>: Subset of arcs that represent arcs involved in pond stability in the network superstructure, k <span class="math notranslate nohighlight">\(\in\)</span> {0,1,…,PSA}. They represent all the arcs coming into a mixer_node where its “PondStability” characteristic is “Y”.</p></li>
+<li><p>A new arc decision variable: <span class="math notranslate nohighlight">\(x^{slack+pond}_{i,j,t}\)</span>: Is the value of positive slack variable used for pond stability for arc <span class="math notranslate nohighlight">\({(i,j)}\)</span> during time period <span class="math notranslate nohighlight">\({t}\)</span>
+<span class="math notranslate nohighlight">\(\forall (i,j) \in PSA \subset A, \forall t \in T\)</span></p></li>
+<li><p>A new arc decision variable: <span class="math notranslate nohighlight">\(x^{slack-pond}_{i,j,t}\)</span>: Is the value of negative slack variable used for pond stability for arc <span class="math notranslate nohighlight">\({(i,j)}\)</span> during time period <span class="math notranslate nohighlight">\({t}\)</span>
+<span class="math notranslate nohighlight">\(\forall (i,j) \in PSA \subset A, \forall t \in T\)</span></p></li>
+<li><p>A new arc decision variable: <span class="math notranslate nohighlight">\(x^{activearcpond}_{i,j,t}\)</span>: Is the value (1 or 0) of active arc used for pond stability for arc <span class="math notranslate nohighlight">\({(i,j)}\)</span> during time period <span class="math notranslate nohighlight">\({t}\)</span>
+<span class="math notranslate nohighlight">\(\forall (i,j) \in PSA \subset A, \forall t \in T\)</span></p></li>
+<li><p>A new objective function: Minimize pond stability slack variables:  <span class="raw-html-md"><br /></span>
+<div class="math notranslate nohighlight">
+\[\ Z = \sum_{t \in T} \sum_{(i,j) \in PSA \subset A} x_{i,j,t}^{slack+pond} + x_{i,j,t}^{slack-pond} + x_{i,j,t}^{activearcpond}\]</div>
+</p></li>
+<li><p>A new constraint: 1.7.1. Pond Stability:</p></li>
+</ul>
+<p><div class="math notranslate nohighlight">
+\[x_{i,j,t}^{activearcpond} - x_{i,j,t-1}^{activearcpond} = x_{i,j,t}^{slack+pond} - x_{i,j,t}^{slack-pond}, t &gt; 1, \forall (i,j) \in PSA \subset A\]</div>
+</p>
+<ul class="simple">
+<li><p>3 non-negativity additional constraints:</p></li>
+</ul>
+<p><div class="math notranslate nohighlight">
+\[x_{i,j,t}^{slack+pond} \geq 0, \forall (i,j) \in PSA, \forall t \in T\]</div>
+
+<div class="math notranslate nohighlight">
+\[x_{i,j,t}^{slack-pond} \geq 0, \forall (i,j) \in PSA, \forall t \in T\]</div>
+
+<div class="math notranslate nohighlight">
+\[x^{activearcpond}_{i,j,t} \in {0,1},\forall (i,j) \in PSA, \forall t \in T\]</div>
+</p>
+</section>
+</section>
+</section>
+<section id="treatment">
+<h1>Treatment<a class="headerlink" href="#treatment" title="Permalink to this heading"></a></h1>
+<section id="id6">
+<h2>Introduction<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h2>
+<p>The following model is an adapted <strong>network flow problem</strong>. The main goal of this model is to send flow from the source nodes (<em>initial nodes</em>) <em>S</em> to the terminal nodes (<em>ending nodes</em>) <em>Z</em>. This adapted model contemplates several types of nodes where each one of them represents a different part in the watermap with unique features, costs and configurations.</p>
+<p>Each arc and node in the system can have specific flows and storing capacities. Also, they can have an operational cost, flow transportation cost and a electrical cost. The last one can be calculated by linear regression or with a fixed expression.</p>
+<p>The fluid that is flowing through the system is composed by contaminated water (contaminants will be
+considered as a given <em>ppm</em> in the water) and oil depending on the asset that is going to be implemented.
+When there’s a presence of contaminants, the mathematical model becomes a quadratic programming problem. The goal of the model is to optimize the water management and not oil decisions. Therefore, we assume that all the fixed features needed in the system won’t be optimized and will be given by the user.</p>
+</section>
+<section id="sets">
+<h2>Sets<a class="headerlink" href="#sets" title="Permalink to this heading"></a></h2>
+<section id="time-dimension-set">
+<h3>Time Dimension Set<a class="headerlink" href="#time-dimension-set" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>T</strong>: Set of time periods, t <span class="math notranslate nohighlight">\(\in\)</span> {0,1,…,T}</p></li>
+</ul>
+</section>
+<section id="node-s-sets-subsets">
+<h3>Node’s sets &amp; subsets<a class="headerlink" href="#node-s-sets-subsets" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>N</strong>: Set of nodes in the network superstructure, i <span class="math notranslate nohighlight">\(\in\)</span> {0,1,…,N}</p></li>
+<li><p><strong>S</strong> <span class="math notranslate nohighlight">\(\subset N\)</span>: Subset of nodes that represent the beginning of
+the network superstructure (sources), s <span class="math notranslate nohighlight">\(\in\)</span> {0,1,…,S}</p></li>
+<li><p><strong>Z</strong> <span class="math notranslate nohighlight">\(\subset N\)</span>: Subset of nodes that represent the end of
+the network superstructure (sinks), z <span class="math notranslate nohighlight">\(\in\)</span> {0,1,…,Z}</p></li>
+<li><p><strong>MAX_S</strong> <span class="math notranslate nohighlight">\(\subset S\)</span>: Subset of initial nodes that represent preferred sources
+in the network superstructure, max_S <span class="math notranslate nohighlight">\(\in\)</span> {0,1,…,MAX_S}</p></li>
+<li><p><strong>MAX_Z</strong> <span class="math notranslate nohighlight">\(\subset Z\)</span>: Subset of ending nodes that represent preferred terminals
+in the network superstructure, max_Z <span class="math notranslate nohighlight">\(\in\)</span> {0,1,…,MAX_Z}</p></li>
+<li><p><strong>R</strong> <span class="math notranslate nohighlight">\(\subset Z\)</span>: Subset of ending that represent reuse terminals
+in the network superstructure, r <span class="math notranslate nohighlight">\(\in\)</span> {0,1,…,R}</p></li>
+<li><p><strong>P</strong> <span class="math notranslate nohighlight">\(\subset N\)</span>: Subset of nodes that represent pumps in the network superstructure, p <span class="math notranslate nohighlight">\(\in\)</span> {0,1,…,P}</p></li>
+<li><p><strong>PFE</strong> <span class="math notranslate nohighlight">\(\subset P\)</span>: Subset of pump nodes that represent fixed efficiency pumps
+in the network superstructure, pfe <span class="math notranslate nohighlight">\(\in\)</span> {0,1,…,PFE}</p></li>
+<li><p><strong>PLR</strong> <span class="math notranslate nohighlight">\(\subset P\)</span>: Subset of pump nodes that represent linear regression pumps
+in the network superstructure, plr <span class="math notranslate nohighlight">\(\in\)</span> {0,1,…,PLR}</p></li>
+<li><p><strong>PU</strong> <span class="math notranslate nohighlight">\(\subset N\)</span>: Subset of nodes that represent process units
+in the network superstructure, pu <span class="math notranslate nohighlight">\(\in\)</span> {0,1,…,PU}</p></li>
+<li><p><strong>TU</strong> <span class="math notranslate nohighlight">\(\subset N\)</span>: Subset of nodes that represent treatment units
+in the network superstructure, tu <span class="math notranslate nohighlight">\(\in\)</span> {0,1,…,TU}</p></li>
+<li><p><strong>OTU</strong> <span class="math notranslate nohighlight">\(\subset N\)</span>: Subset of nodes that represent oil treatment units
+in the network superstructure, otu <span class="math notranslate nohighlight">\(\in\)</span> {0,1,…,OTU}</p></li>
+<li><p><strong>MU</strong> <span class="math notranslate nohighlight">\(\subset N\)</span>: Subset of nodes that represent mixer units
+in the network superstructure, mu <span class="math notranslate nohighlight">\(\in\)</span> {0,1,…,MU}</p></li>
+<li><p><strong>SU</strong> <span class="math notranslate nohighlight">\(\subset N\)</span>: Subset of nodes that represent splitter units
+in the network superstructure, su <span class="math notranslate nohighlight">\(\in\)</span> {0,1,…,SU}</p></li>
+<li><p><strong>SWLT</strong> <span class="math notranslate nohighlight">\(\subset SU\)</span>: Subset of nodes that represent splitter units with loss tanks
+in the network superstructure, swlt <span class="math notranslate nohighlight">\(\in\)</span> {0,1,…,SWLT}</p></li>
+<li><p><strong>SWOLT</strong> <span class="math notranslate nohighlight">\(\subset SU\)</span>: Subset of nodes that represent splitter units without loss tanks
+in the network superstructure, swolt <span class="math notranslate nohighlight">\(\in\)</span> {0,1,…,SWOLT}</p></li>
+<li><p><strong>STU</strong> <span class="math notranslate nohighlight">\(\subset N\)</span>: Subset of nodes that represent storage tank units
+in the network superstructure, stu <span class="math notranslate nohighlight">\(\in\)</span> {0,1,…,STU}</p></li>
+<li><p><strong>LTU</strong> <span class="math notranslate nohighlight">\(\subset N\)</span>: Subset of nodes that represent loss tank units
+in the network superstructure, ltu <span class="math notranslate nohighlight">\(\in\)</span> {0,1,…,LTU}</p></li>
+<li><p><strong>POU</strong> <span class="math notranslate nohighlight">\(\subset N\)</span>: Subset of nodes that represent pond units
+in the network superstructure, pou <span class="math notranslate nohighlight">\(\in\)</span> {0,1,…,POU}</p></li>
+<li><p><strong>CTU</strong> <span class="math notranslate nohighlight">\(\subset N\)</span>: Subset of nodes that represent cooling tower units
+in the network superstructure, ctu <span class="math notranslate nohighlight">\(\in\)</span> {0,1,…,CTU}</p></li>
+<li><p><strong>BU</strong> <span class="math notranslate nohighlight">\(\subset N\)</span>: Subset of nodes that represent boiler units
+in the network superstructure, bu <span class="math notranslate nohighlight">\(\in\)</span> {0,1,…,BU}</p></li>
+<li><p><strong>O</strong> <span class="math notranslate nohighlight">\(\subset N\)</span>: Subset of nodes that represent oil nodes
+in the network superstructure, o <span class="math notranslate nohighlight">\(\in\)</span> {0,1,…,O}</p></li>
+</ul>
+</section>
+<section id="contaminant-s-set">
+<h3>Contaminant’s set<a class="headerlink" href="#contaminant-s-set" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>C</strong>: Set of contaminant species in the network superstructure, c <span class="math notranslate nohighlight">\(\in\)</span> {0,1,…,C}</p></li>
+</ul>
+</section>
+<section id="arc-s-sets-subsets">
+<h3>Arc’s sets &amp; subsets<a class="headerlink" href="#arc-s-sets-subsets" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>A</strong>: Set of arcs in the network superstructure, k <span class="math notranslate nohighlight">\(\in\)</span> {0,1,…,A}</p></li>
+<li><p><strong>FSA</strong> <span class="math notranslate nohighlight">\(\subset A\)</span>: Subset of arcs that represent fixed splitter arcs in the network superstructure, k <span class="math notranslate nohighlight">\(\in\)</span> {0,1,…,FSA}</p></li>
+<li><p><strong>FOTA</strong> <span class="math notranslate nohighlight">\(\subset A\)</span>: Subset of arcs that represent fixed oil treatment arcs in the network superstructure, k <span class="math notranslate nohighlight">\(\in\)</span> {0,1,…,FOTA}</p></li>
+<li><p><strong>OA</strong> <span class="math notranslate nohighlight">\(\subset A\)</span>: Subset of arcs that represent oil arcs in the network superstructure, k <span class="math notranslate nohighlight">\(\in\)</span> {0,1,…,OA}</p></li>
+<li><p><strong>FA</strong> <span class="math notranslate nohighlight">\(\subset A\)</span>: Subset of arcs that represent flag arcs in the network superstructure, k <span class="math notranslate nohighlight">\(\in\)</span> {0,1,…,FA}</p></li>
+<li><p><strong>WMA</strong> <span class="math notranslate nohighlight">\(\subset A\)</span>: Subset of arcs that represent arcs involved in water mix stability in the network superstructure, k <span class="math notranslate nohighlight">\(\in\)</span> {0,1,…,WMA}</p></li>
+</ul>
+<p>Identified via the “Y” in the “WaterMixStability” column in the “Node_Mixer” tab of the configuration file</p>
+<ul class="simple">
+<li><p><strong>WMALP</strong> <span class="math notranslate nohighlight">\(\subset A\)</span>: Subset of arcs that represent arcs involved in water mix stability low priority (disposal stability in permian) in the network superstructure, k <span class="math notranslate nohighlight">\(\in\)</span> {0,1,…,WMALP}</p></li>
+</ul>
+<p>Identified via the “Y” in the “WaterMixStability_LowPriority” column in the “Node_Mixer” tab of the configuration file</p>
+<ul class="simple">
+<li><p><strong>NA</strong> <span class="math notranslate nohighlight">\(\subset A\)</span>: Subset of arcs that represent nominal arcs in the network superstructure, k <span class="math notranslate nohighlight">\(\in\)</span> {0,1,…,NA}</p></li>
+</ul>
+<p>Identified via the numbers in the “Nominal_Value” column in the “Arcs_CPF” tab of the configuration file.</p>
+<ul class="simple">
+<li><p><strong>PSA</strong> <span class="math notranslate nohighlight">\(\subset A\)</span>: Subset of arcs that represent arcs involved in pond stability in the network superstructure, k <span class="math notranslate nohighlight">\(\in\)</span> {0,1,…,PSA}</p></li>
+</ul>
+<p>Identified via the “Y” in the “PondStability” column in the “Node_Mixer” tab of the configuration file</p>
+</section>
+</section>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
+<section id="arc-s-parameters">
+<h3>Arc’s parameters<a class="headerlink" href="#arc-s-parameters" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(l^{a}_{i,j}\)</span>: Is the minimum flow required
+for the arc <span class="math notranslate nohighlight">\({(i,j)}\)</span>, <span class="math notranslate nohighlight">\(\forall (i,j) \in A\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(u^{a}_{i,j}\)</span>: Is the maximum flow allowed
+for the arc <span class="math notranslate nohighlight">\({(i,j)}\)</span>, <span class="math notranslate nohighlight">\(\forall (i,j) \in A\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(up^{a}_{i,j,t}\)</span>: Is the usable percentage for the arc <span class="math notranslate nohighlight">\({(i,j)}\)</span>
+during the time period <span class="math notranslate nohighlight">\({t}\)</span>, <span class="math notranslate nohighlight">\(\forall t \in T, \forall (i,j) \in A\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\alpha^{nominal}_{i,j,t}\)</span>: Is the nominal value for the arc <span class="math notranslate nohighlight">\({(i,j)}\)</span>
+during the time period <span class="math notranslate nohighlight">\({t}\)</span>, <span class="math notranslate nohighlight">\(\forall t \in T, \forall (i,j) \in A\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(c^{flow}_{i,j}\)</span>: Is the flow transportation cost that comes
+from the node <span class="math notranslate nohighlight">\({i}\)</span> to the node <span class="math notranslate nohighlight">\({j}\)</span>, <span class="math notranslate nohighlight">\(\forall (i,j) \in A\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(c^{other}_{i,j,t}\)</span>: Are the other costs that come from the node <span class="math notranslate nohighlight">\({i}\)</span>
+to the node <span class="math notranslate nohighlight">\({j}\)</span> during the time period <span class="math notranslate nohighlight">\({t}\)</span>, <span class="math notranslate nohighlight">\(\forall t \in T,\forall (i,j) \in A\)</span></p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[has^{oil}_{i,j} =
+   \begin{cases}
+   1 \space\text{if the arc ${(i,j)}$ has oil,} \space \forall (i,j) \in A\
+   0 \space\text{if the arc ${(i,j)}$ does not have oil,} \space \forall (i,j) \in A
+   \end{cases}\]</div>
+<div class="math notranslate nohighlight">
+\[flag^{a}_{i,j} =
+   \begin{cases}
+   1 \space\text{if the arc ${(i,j)}$ has recirculation,} \space \forall (i,j) \in A\
+   0 \space\text{if the arc ${(i,j)}$ does not have recirculation,} \space \forall (i,j) \in A
+   \end{cases}\]</div>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(fwp^{a}_{i,j}\)</span>: Is the fixed water percentage
+for the arc <span class="math notranslate nohighlight">\({(i,j)}\)</span>, <span class="math notranslate nohighlight">\(\forall (i,j) \in FOTA \subset A\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(fop^{a}_{i,j}\)</span>: Is the fixed oil percentage
+for the arc <span class="math notranslate nohighlight">\({(i,j)}\)</span>, <span class="math notranslate nohighlight">\(\forall (i,j) \in FOTA \subset A\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(fp^{split}_{i,j}\)</span>: Is the fixed split percentage
+for the arc <span class="math notranslate nohighlight">\({(i,j)}\)</span>, <span class="math notranslate nohighlight">\(\forall (i,j) \in FSA \subset A\)</span></p></li>
+</ul>
+</section>
+<section id="node-s-parameters">
+<h3>Node’s parameters<a class="headerlink" href="#node-s-parameters" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\({entry}_j\)</span>: Set of all nodes <span class="math notranslate nohighlight">\(i\)</span> that are input nodes <span class="math notranslate nohighlight">\({(i,j)}\)</span>
+towards the node <span class="math notranslate nohighlight">\(j\)</span>, <span class="math notranslate nohighlight">\((i: [0,..,j])\)</span> <span class="math notranslate nohighlight">\(\forall i,j \in N\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\({exit}_j\)</span>: Set of all nodes <span class="math notranslate nohighlight">\(k\)</span> that are output nodes <span class="math notranslate nohighlight">\({(j,k)}\)</span>
+from the node <span class="math notranslate nohighlight">\(j\)</span>, <span class="math notranslate nohighlight">\((j: [0,..,k])\)</span> <span class="math notranslate nohighlight">\(\forall j,k \in N\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(l^{n}_{i}\)</span>: Is the lower storing capacity
+for the node <span class="math notranslate nohighlight">\({i}\)</span>, <span class="math notranslate nohighlight">\(\forall i \in N\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(u^{n}_{i}\)</span>: Is the upper storing capacity
+for the node <span class="math notranslate nohighlight">\({i}\)</span>, <span class="math notranslate nohighlight">\(\forall i \in N\)</span></p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[node^{oil}_{i} =
+   \begin{cases}
+   1 \space\text{if the node ${i}$ has oil,} \space \forall i \in N\
+   0 \space\text{if the node ${i}$ does not have oil,} \space \forall i \in N
+   \end{cases}\]</div>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\gamma^{water}_{i,t}\)</span>: Is the initial amount of water in the network for
+source node <span class="math notranslate nohighlight">\({i}\)</span> at the beginning of time period <span class="math notranslate nohighlight">\({t}\)</span>, <span class="math notranslate nohighlight">\(\forall t \in T, \forall i \in S \subset N\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\gamma^{oil}_{i,t}\)</span>: Is the initial amount of oil in the network for
+source node <span class="math notranslate nohighlight">\({i}\)</span> at the beginning of time period <span class="math notranslate nohighlight">\({t}\)</span>, <span class="math notranslate nohighlight">\(\forall t \in T, \forall i \in S \subset N\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\gamma^{c}_{i,t}\)</span>: Is the initial amount of contaminant <span class="math notranslate nohighlight">\({c}\)</span> in the network for
+source node <span class="math notranslate nohighlight">\({i}\)</span> at the beginning of time period <span class="math notranslate nohighlight">\({t}\)</span>, <span class="math notranslate nohighlight">\(\forall t \in T, \forall c \in C, \forall i \in S \subset N\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\nabla^{c}_{i}\)</span>: Is the initial amount of contaminant <span class="math notranslate nohighlight">\({c}\)</span> content
+in the node <span class="math notranslate nohighlight">\({i}\)</span>, <span class="math notranslate nohighlight">\(\forall i \in STU \land POU \subset N, \forall c \in C\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\kappa^{water}_{i,t}\)</span>: Is the dynamic ending capacity of water for node <span class="math notranslate nohighlight">\({i}\)</span> at the
+beginning of time period <span class="math notranslate nohighlight">\({t}\)</span>, <span class="math notranslate nohighlight">\(\forall t \in T, \forall i \in Z \subset N\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\kappa^{oil}_{i,t}\)</span>: Is the dynamic ending capacity of oil for node <span class="math notranslate nohighlight">\({i}\)</span> at the
+beginning of time period <span class="math notranslate nohighlight">\({t}\)</span>, <span class="math notranslate nohighlight">\(\forall t \in T, \forall i \in Z \subset N\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\tau^{in}_{i}\)</span>: Is the inflow pressure for pump <span class="math notranslate nohighlight">\({i}\)</span>, <span class="math notranslate nohighlight">\(\forall i \in P \subset N\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\tau^{out}_{i}\)</span>: Is the outflow pressure for pump <span class="math notranslate nohighlight">\({i}\)</span>, <span class="math notranslate nohighlight">\(\forall i \in P \subset N\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\eta^{n}_{i}\)</span>: Is the efficiency of pump <span class="math notranslate nohighlight">\({i}\)</span>, <span class="math notranslate nohighlight">\(\forall i \in P \subset N\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\phi^{i}_{0}\)</span>: Is the linear regression intercept coefficient for
+pump <span class="math notranslate nohighlight">\({i}\)</span>, <span class="math notranslate nohighlight">\(\forall i \in PLR \subset P \subset N\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\phi^{i}_{1}\)</span>: Is the linear regression pressure coefficient for
+pump <span class="math notranslate nohighlight">\({i}\)</span>, <span class="math notranslate nohighlight">\(\forall i \in PLR \subset P \subset N\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\phi^{i}_{2}\)</span>: Is the linear regression flow rate coefficient for
+pump <span class="math notranslate nohighlight">\({i}\)</span>, <span class="math notranslate nohighlight">\(\forall i \in PLR \subset P \subset N\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\lambda^{c}_{i}\)</span>: Is the fixed discharge load of contaminant <span class="math notranslate nohighlight">\({c}\)</span> added in the
+process unit <span class="math notranslate nohighlight">\({i}\)</span>, <span class="math notranslate nohighlight">\(\forall c \in C, \forall i \in PU \subset N\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\omega^{c}_{i}\)</span>: Is the removal efficiency of contaminant <span class="math notranslate nohighlight">\({c}\)</span> from the
+treatment unit <span class="math notranslate nohighlight">\({i}\)</span>, <span class="math notranslate nohighlight">\(\forall c \in C, \forall i \in TU \subset N\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\delta^{water}_{i}\)</span>: Is the initial amount of water content in the
+node <span class="math notranslate nohighlight">\({i}\)</span>, <span class="math notranslate nohighlight">\(\forall i \in STU \cup POU \subset N\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\xi^{water}_{i}\)</span>: Is the evaporation rate in the node <span class="math notranslate nohighlight">\({i}\)</span>, <span class="math notranslate nohighlight">\(\forall i \in POU \subset N\)</span></p></li>
+</ul>
+</section>
+<section id="general-parameters">
+<h3>General parameters<a class="headerlink" href="#general-parameters" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(M\)</span>: Is a very big penalty constant that is equal to the maximum capacity of the nodes.</p></li>
+<li><p><span class="math notranslate nohighlight">\(M^{arcs}\)</span>: Is a very big penalty constant that is equal to the maximum capacity of the arcs.</p></li>
+<li><p><span class="math notranslate nohighlight">\(E\)</span>: Is the electrical cost per unit of the system.</p></li>
+<li><p><span class="math notranslate nohighlight">\(watt_{to}^{kwh}\)</span>: Is the unit convertion constant to transform watts to kwh.</p></li>
+<li><p><span class="math notranslate nohighlight">\(bpd_{psi}^{kwh}\)</span>: Is the unit convertion constant to transform bpd to psi to kwh.</p></li>
+<li><p><span class="math notranslate nohighlight">\(bar_{to}^{lts}\)</span>: Is the unit convertion constant to transform barrels to litters.</p></li>
+<li><p><span class="math notranslate nohighlight">\(Tm\)</span>: Is the last time period.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\epsilon\)</span>: Is a small penalty constant.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\psi\)</span>: Is a positive energy constant.</p></li>
+<li><p><span class="math notranslate nohighlight">\(per_{opt}^{hier}\)</span>: Is the percentage of hierarchical optimization.</p></li>
+</ul>
+</section>
+</section>
+<section id="decision-variables">
+<h2>Decision variables<a class="headerlink" href="#decision-variables" title="Permalink to this heading"></a></h2>
+<section id="node-s-decisions">
+<h3>Node’s decisions<a class="headerlink" href="#node-s-decisions" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(y^{water}_{i,t}\)</span>: Is the amount of water to be stored in the node <span class="math notranslate nohighlight">\({i}\)</span> at
+the beginning of time period <span class="math notranslate nohighlight">\({t}\)</span>, <span class="math notranslate nohighlight">\(\forall i \in N, \forall t \in T\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(y^{oil}_{i,t}\)</span>: Is the amount of oil to be stored in the node <span class="math notranslate nohighlight">\({i}\)</span> at
+the beginning of time period <span class="math notranslate nohighlight">\({t}\)</span>, <span class="math notranslate nohighlight">\(\forall i \in O \subset N, \forall t \in T\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(y^{elec}_{i,t}\)</span>: Is the electricity generation in the node <span class="math notranslate nohighlight">\({i}\)</span> at
+the beginning of time period <span class="math notranslate nohighlight">\({t}\)</span>, <span class="math notranslate nohighlight">\(\forall i \in P \subset N, \forall t \in T\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(y^{c}_{i,t}\)</span>: Is the concentration of contaminant <span class="math notranslate nohighlight">\({c}\)</span> in the node <span class="math notranslate nohighlight">\({i}\)</span> at
+the beginning of time period <span class="math notranslate nohighlight">\({t}\)</span>, <span class="math notranslate nohighlight">\(\forall i \in N, \forall t \in T, \forall c \in C\)</span></p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[y^{active}_{i,t} =
+   \begin{cases}
+   1 \space\text{if the node ${i}$ is active,} \space \forall i \in P \subset N\
+   0 \space\text{if the node ${i}$ is not active,} \space \forall i \in P \subset N
+   \end{cases}\]</div>
+</section>
+<section id="arc-s-decisions">
+<h3>Arc’s decisions<a class="headerlink" href="#arc-s-decisions" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(x^{water}_{i,j,t}\)</span>: Is the amount of water to be send from the node <span class="math notranslate nohighlight">\({i}\)</span> to
+the node <span class="math notranslate nohighlight">\({j}\)</span> during time period <span class="math notranslate nohighlight">\({t}\)</span>, <span class="math notranslate nohighlight">\(\forall (i,j) \in A, \forall t \in T\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(x^{oil}_{i,j,t}\)</span>: Is the amount of oil to be send from the node <span class="math notranslate nohighlight">\({i}\)</span> to
+the node <span class="math notranslate nohighlight">\({j}\)</span> during time period <span class="math notranslate nohighlight">\({t}\)</span>, <span class="math notranslate nohighlight">\(\forall (i,j) \in OA \subset A, \forall t \in T\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(x^{c}_{i,j,t}\)</span>: Is the concentration of contaminant <span class="math notranslate nohighlight">\({c}\)</span> in the
+arc <span class="math notranslate nohighlight">\({(i,j)}\)</span> during time period <span class="math notranslate nohighlight">\({t}\)</span>, <span class="math notranslate nohighlight">\(\forall c \in C, \forall (i,j) \in A, \forall t \in T\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(x^{slack+watermix}_{i,j,t}\)</span>: Is the value of positive slack variable used for water mix and pond stability for arc <span class="math notranslate nohighlight">\({(i,j)}\)</span> during time period <span class="math notranslate nohighlight">\({t}\)</span>
+<span class="math notranslate nohighlight">\(\forall (i,j) \in WMA \cup WMALP, \forall t \in T\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(x^{slack-watermix}_{i,j,t}\)</span>: Is the value of negative slack variable used for water mix stability for arc <span class="math notranslate nohighlight">\({(i,j)}\)</span> during time period <span class="math notranslate nohighlight">\({t}\)</span>
+<span class="math notranslate nohighlight">\(\forall (i,j) \in WMA \cup WMALP, \forall t \in T\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(x^{slack+pond}_{i,j,t}\)</span>: Is the value of positive slack variable used for pond stability for arc <span class="math notranslate nohighlight">\({(i,j)}\)</span> during time period <span class="math notranslate nohighlight">\({t}\)</span>
+<span class="math notranslate nohighlight">\(\forall (i,j) \in PSA, \forall t \in T\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(x^{slack-pond}_{i,j,t}\)</span>: Is the value of negative slack variable used for pond stability for arc <span class="math notranslate nohighlight">\({(i,j)}\)</span> during time period <span class="math notranslate nohighlight">\({t}\)</span>
+<span class="math notranslate nohighlight">\(\forall (i,j) \in PSA, \forall t \in T\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(x^{delta}_{i,j,t}\)</span>: Is the difference between the nominal value and the water flow for the arc <span class="math notranslate nohighlight">\({(i,j)}\)</span> during time period <span class="math notranslate nohighlight">\({t}\)</span>, <span class="math notranslate nohighlight">\(\forall (i,j) \in A, \forall t \in T\)</span></p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[x^{activearcwatermix}_{i,j,t} =
+    \begin{cases}
+    1 \space\text{if the arc ${(i,j)}$ is active at time ${t}$,}\
+    0 \space\text{if the arc ${(i,j)}$ is not active at time ${t}$,} \space \forall i \in WMA \cup WMALP, \forall t \in T
+    \end{cases}\]</div>
+<div class="math notranslate nohighlight">
+\[x^{activearcpond}_{i,j,t} =
+    \begin{cases}
+    1 \space\text{if the arc ${(i,j)}$ is active at time ${t}$,}\
+    0 \space\text{if the arc ${(i,j)}$ is not active at time ${t}$,} \space \forall i \in PSA, \forall t \in T
+    \end{cases}\]</div>
+</section>
+</section>
+<section id="objective-functions">
+<h2>Objective functions<a class="headerlink" href="#objective-functions" title="Permalink to this heading"></a></h2>
+<ul>
+<li><p>Penalty:  <span class="raw-html-md"><br /></span>
+<div class="math notranslate nohighlight">
+\[\ SP = \sum_{t \in T} \sum_{i \in S \subset N} M * y_{i,t}^{water} \]</div>
+</p></li>
+<li><p>Minimize other costs objective:  <span class="raw-html-md"><br /></span>
+<div class="math notranslate nohighlight">
+\[\ Z = \sum_{t \in T} \sum_{(i,j) \in A, j - {Z}} (c_{i,j,t}^{other} + c_{i,j}^{flow}) * x_{i,j,t}^{water} \]</div>
+</p></li>
+<li><p>Minimize nominal difference objective:  <span class="raw-html-md"><br /></span>
+<div class="math notranslate nohighlight">
+\[\ Z = \sum_{t \in T} \sum_{(i,j) \in NA \subset A} x^{delta}_{i,j,t} \]</div>
+</p></li>
+<li><p>Maximize recirculation (Baranca) / produced water (Permian) objective:  <span class="raw-html-md"><br /></span>
+<div class="math notranslate nohighlight">
+\[\ Z = \sum_{t \in T} \sum_{(i,j) \in FA \subset A} x_{i,j,t}^{water} \]</div>
+</p>
+<p>For the PERMIAN asset, this is achieved by targeting arcs with a “Y” in the “Recirculation” column in the “Arcs_CPF” tab of the configuration file.</p>
+<img alt="../../_images/producedwater_configfile.png" src="../../_images/producedwater_configfile.png" />
+</li>
+<li><p>Minimize total costs objective:</p></li>
+<li><p>i) Electrical cost:  <span class="raw-html-md"><br /></span>
+<div class="math notranslate nohighlight">
+\[\ Z_1 = \sum_{t \in T}\sum_{i \in P \subset N} E*y_{i,t}^{elec} \]</div>
+</p></li>
+<li><p>ii) Flow cost water:  <span class="raw-html-md"><br /></span>
+<div class="math notranslate nohighlight">
+\[\ Z_2 = \sum_{t \in T} \sum_{(i,j) \in A, j - {Z}} c_{i,j}^{flow} * x_{i,j,t}^{water}\]</div>
+</p></li>
+<li><p>iii) Flow cost oil:  <span class="raw-html-md"><br /></span>
+<div class="math notranslate nohighlight">
+\[\ Z_3 = \sum_{t \in T} \sum_{(i,j) \in OA, j - {Z}} c_{i,j}^{flow} * x_{i,j,t}^{oil}\]</div>
+</p></li>
+<li><p>iv) Other cost water:  <span class="raw-html-md"><br /></span>
+<div class="math notranslate nohighlight">
+\[\ Z_4 = \sum_{t \in T} \sum_{(i,j) \in A, j - {Z}} c_{i,j,t}^{other} * x_{i,j,t}^{water}\]</div>
+</p></li>
+<li><p>v) Other cost oil:  <span class="raw-html-md"><br /></span>
+<div class="math notranslate nohighlight">
+\[\ Z_5 = \sum_{t \in T} \sum_{(i,j) \in A, j - {Z}} c_{i,j,t}^{other} * x_{i,j,t}^{oil}\]</div>
+</p></li>
+<li><p>vi) Total costs:  <span class="raw-html-md"><br /></span>
+<div class="math notranslate nohighlight">
+\[\ Z = Z_1 + Z_2 + Z_3 + Z_4 + Z_5 \]</div>
+</p></li>
+<li><p>Maximize supply and demand balance objective:  <span class="raw-html-md"><br /></span>
+<div class="math notranslate nohighlight">
+\[\ Z = \sum_{t \in T} (\sum_{i \in MAX_Z \subset Z } y_{i,t}^{water} - \sum_{i \in MAX_S \subset S } y_{i,t}^{water})\]</div>
+</p></li>
+<li><p>End benefit:  <span class="raw-html-md"><br /></span>
+<div class="math notranslate nohighlight">
+\[\ Z = \sum_{t \in T} \sum_{(i,j) \in A, j \in {Z}} x_{i,j,t}^{water} \]</div>
+</p></li>
+<li><p>Minimize water mix stability slack and binary variables:  <span class="raw-html-md"><br /></span>
+<div class="math notranslate nohighlight">
+\[\ Z = \sum_{t \in T} \sum_{(i,j) \in WMA \subset A} x_{i,j,t}^{slack+watermix} + x_{i,j,t}^{slack-watermix} + x_{i,j,t}^{activearcwatermix} \]</div>
+</p></li>
+<li><p>Minimize water mix stability low priority (= disposal stability) slack and binary variables:  <span class="raw-html-md"><br /></span>
+<div class="math notranslate nohighlight">
+\[\ Z = \sum_{t \in T} \sum_{(i,j) \in WMALP \subset A} x_{i,j,t}^{slack+watermix} + x_{i,j,t}^{slack-watermix} + x_{i,j,t}^{activearcwatermix} \]</div>
+</p></li>
+<li><p>Minimize pond mix stability slack and binary variables:  <span class="raw-html-md"><br /></span>
+<div class="math notranslate nohighlight">
+\[\ Z = \sum_{t \in T} \sum_{(i,j) \in PSA \subset A} x_{i,j,t}^{slack+pond} + x_{i,j,t}^{slack-pond} + x_{i,j,t}^{activearcpond} \]</div>
+</p></li>
+</ul>
+</section>
+<section id="hierarchical-optimization">
+<h2>Hierarchical optimization<a class="headerlink" href="#hierarchical-optimization" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><em>downstream_minimize_costs:</em></p></li>
+</ul>
+<blockquote>
+<div><p><div class="math notranslate nohighlight">
+\[Min(Network \space cost)\]</div>
+</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><em>downstream_maximize_recirculation:</em></p></li>
+</ul>
+<blockquote>
+<div><p><div class="math notranslate nohighlight">
+\[Max(Recirculation)\]</div>
+</p>
+<blockquote>
+<div><p><div class="math notranslate nohighlight">
+\[Water \space flow \space cost&lt;=Min(per_{opt}^{hier}*Water \space flow \space cost)\]</div>
+</p>
+</div></blockquote>
+</div></blockquote>
+<ul class="simple">
+<li><p><em>upstream_minimize_electrical_consumption:</em></p></li>
+</ul>
+<blockquote>
+<div><p><div class="math notranslate nohighlight">
+\[Max(End \space benefit)\]</div>
+</p>
+<blockquote>
+<div><p><div class="math notranslate nohighlight">
+\[Energy \space cost&lt;=Min(per_{opt}^{hier}*Energy \space cost)\]</div>
+</p>
+<blockquote>
+<div><p><div class="math notranslate nohighlight">
+\[Network \space cost&lt;=Min(per_{opt}^{hier}*Network \space cost)\]</div>
+</p>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+<ul class="simple">
+<li><p><em>upstream_maximize_reuse:</em></p></li>
+</ul>
+<blockquote>
+<div><p><div class="math notranslate nohighlight">
+\[Max(End \space benefit)\]</div>
+</p>
+<blockquote>
+<div><p><div class="math notranslate nohighlight">
+\[Network \space cost&lt;=Min(per_{opt}^{hier}*Network \space cost)\]</div>
+</p>
+</div></blockquote>
+</div></blockquote>
+<ul class="simple">
+<li><p><em>upstream_minimize_costs:</em></p></li>
+</ul>
+<blockquote>
+<div><p><div class="math notranslate nohighlight">
+\[Max(End \space benefit)\]</div>
+</p>
+<blockquote>
+<div><p><div class="math notranslate nohighlight">
+\[Network \space cost &lt;= Min(per_{opt}^{hier}*Network \space cost)\]</div>
+</p>
+</div></blockquote>
+</div></blockquote>
+<ul class="simple">
+<li><p><em>upstream_supply_demand_cost:</em></p></li>
+</ul>
+<blockquote>
+<div><p><div class="math notranslate nohighlight">
+\[Max(Supply \space demand \space flow)\]</div>
+</p>
+<blockquote>
+<div><p><div class="math notranslate nohighlight">
+\[Max(Produced \space Water)\]</div>
+</p>
+<blockquote>
+<div><p><div class="math notranslate nohighlight">
+\[Network \space cost&lt;=Min(per_{opt}^{hier}*Network \space cost)\]</div>
+</p>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+<ul class="simple">
+<li><p><em>upstream_supply_demand_cost_water_mix_stabilized:</em></p></li>
+</ul>
+<blockquote>
+<div><p><div class="math notranslate nohighlight">
+\[Max(Supply \space demand \space flow)\]</div>
+</p>
+<blockquote>
+<div><p><div class="math notranslate nohighlight">
+\[Max(Produced \space Water)\]</div>
+</p>
+<blockquote>
+<div><p><div class="math notranslate nohighlight">
+\[Min(Water \space Mix \space Stability \space Slack \space and \space Binary \space Variables)\]</div>
+</p>
+<blockquote>
+<div><p><div class="math notranslate nohighlight">
+\[Network \space cost&lt;=Min(per_{opt}^{hier}*Network \space cost)\]</div>
+</p>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+<ul class="simple">
+<li><p><em>upstream_supply_demand_cost_water_mix_stabilized_inverted:</em></p></li>
+</ul>
+<blockquote>
+<div><p><div class="math notranslate nohighlight">
+\[Max(Supply \space demand \space flow)\]</div>
+</p>
+<blockquote>
+<div><p><div class="math notranslate nohighlight">
+\[Min(Water \space Mix \space Stability \space Slack \space and \space Binary \space Variables)\]</div>
+</p>
+<blockquote>
+<div><p><div class="math notranslate nohighlight">
+\[Max(Produced \space Water)\]</div>
+</p>
+<blockquote>
+<div><p><div class="math notranslate nohighlight">
+\[Network \space cost&lt;=Min(per_{opt}^{hier}*Network \space cost)\]</div>
+</p>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+<ul class="simple">
+<li><p><em>upstream_supply_demand_cost_fully_stabilized:</em></p></li>
+</ul>
+<blockquote>
+<div><p><div class="math notranslate nohighlight">
+\[Max(Supply \space demand \space flow)\]</div>
+</p>
+<blockquote>
+<div><p><div class="math notranslate nohighlight">
+\[Max(Produced \space Water)\]</div>
+</p>
+<blockquote>
+<div><p><div class="math notranslate nohighlight">
+\[Min(Water \space Mix \space Stability \space Slack \space and \space Binary \space Variables)\]</div>
+</p>
+<blockquote>
+<div><p><div class="math notranslate nohighlight">
+\[Min(Pond \space Stability \space Slack \space and \space Binary \space Variables)\]</div>
+</p>
+<blockquote>
+<div><p><div class="math notranslate nohighlight">
+\[Network \space cost&lt;=Min(per_{opt}^{hier}*Network \space cost)\]</div>
+</p>
+<blockquote>
+<div><p><div class="math notranslate nohighlight">
+\[Min(Water \space Mix \space Stability \space Low \space Priority \space Slack \space and \space Binary \space Variables)\]</div>
+</p>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+<ul class="simple">
+<li><p><em>upstream_supply_demand_cost_fully_stabilized_inverted:</em></p></li>
+</ul>
+<blockquote>
+<div><p><div class="math notranslate nohighlight">
+\[Max(Supply \space demand \space flow)\]</div>
+</p>
+<blockquote>
+<div><p><div class="math notranslate nohighlight">
+\[Min(Water \space Mix \space Stability \space Slack \space and \space Binary \space Variables)\]</div>
+</p>
+<blockquote>
+<div><p><div class="math notranslate nohighlight">
+\[Max(Produced \space Water)\]</div>
+</p>
+<blockquote>
+<div><p><div class="math notranslate nohighlight">
+\[Min(Pond \space Stability \space Slack \space and \space Binary \space Variables)\]</div>
+</p>
+<blockquote>
+<div><p><div class="math notranslate nohighlight">
+\[Network \space cost&lt;=Min(per_{opt}^{hier}*Network \space cost)\]</div>
+</p>
+<blockquote>
+<div><p><div class="math notranslate nohighlight">
+\[Min(Water \space Mix \space Stability \space Low \space Priority \space Slack \space and \space Binary \space Variables)\]</div>
+</p>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</section>
+<section id="constraints">
+<h2>Constraints<a class="headerlink" href="#constraints" title="Permalink to this heading"></a></h2>
+<section id="electrical-cost-constraints">
+<h3>0. Electrical cost constraints<a class="headerlink" href="#electrical-cost-constraints" title="Permalink to this heading"></a></h3>
+<p>0.1. For linear regression:</p>
+<p><div class="math notranslate nohighlight">
+\[y_{j,t}^{elec} \geq (\phi_{0}^{j} + \phi_{1}^{j}*(\tau_{j}^{out}-\tau_{j}^{in}) + \phi_{2}^{j} * \sum_{(i,j) \in A, i \in entry_{j}} x_{i,j,t}^{water}) * watt_{to}^{kwh}, \forall j \in PLR \subset N, \forall t \in T\]</div>
+</p>
+<p>0.2. For efficiency:</p>
+<p><div class="math notranslate nohighlight">
+\[y_{j,t}^{elec} \geq (\frac{1}{\eta_{j}^{n}}*(\tau_{j}^{out}-\tau_{j}^{in}) * \sum_{(i,j) \in OA, i \in entry_{j}} x_{i,j,t}^{oil} + x_{i,j,t}^{water}) * bpd_{psi}^{kwh} , \forall j \in PFE \land O \subset N, \forall t \in T\]</div>
+</p>
+<p><div class="math notranslate nohighlight">
+\[y_{j,t}^{elec} \geq (\frac{1}{\eta_{j}^{n}}*(\tau_{j}^{out}-\tau_{j}^{in}) * \sum_{(i,j) \in A, i \in entry_{j}} x_{i,j,t}^{water}) * bpd_{psi}^{kwh}, \forall j \in PFE \subset N - {O}, \forall t \in T\]</div>
+</p>
+</section>
+<section id="flow-balancing-constraints">
+<h3>1. Flow balancing constraints<a class="headerlink" href="#flow-balancing-constraints" title="Permalink to this heading"></a></h3>
+<p>1.1.1. Water flow balancing (except for initial nodes):</p>
+<p><div class="math notranslate nohighlight">
+\[\sum_{(i,j) \in A, i \in entry_{j}} x_{i,j,t}^{water} - \sum_{(j,k) \in A, k \in exit_{j}} x_{j,k,t}^{water} =  y_{j,t}^{water} - y_{j,t-1}^{water}, t &gt; 1, \forall j \in N - {S}\]</div>
+</p>
+<p>1.1.2. Water flow balancing (except for initial nodes):</p>
+<p><div class="math notranslate nohighlight">
+\[\sum_{(i,j) \in A, i \in entry_{j}} x_{i,j,t}^{water} - \sum_{(j,k) \in A, k \in exit_{j}} x_{j,k,t}^{water} =  y_{j,t}^{water} - \delta_{j}^{water}, t = 1, \forall j \in STU \cup POU \subset N - {S}\]</div>
+</p>
+<p>1.1.3. Water flow balancing (except for initial nodes, tanks and ponds):</p>
+<p><div class="math notranslate nohighlight">
+\[\sum_{(i,j) \in A, i \in entry_{j}} x_{i,j,t}^{water} - \sum_{(j,k) \in A, k \in exit_{j}} x_{j,k,t}^{water} =  y_{j,t}^{water}, t = 1, \forall j \in N - {STU, POU, S}\]</div>
+</p>
+<p>1.2.1. Total time water flow balance:</p>
+<p><div class="math notranslate nohighlight">
+\[\sum_{t \in T}\sum_{(s,j) \in A, j \in exit_{s}} x_{s,j,t}^{water} + \sum_{i \in STU \cup POU} \delta_{i}^{water} = \newline
+\sum_{t \in T}\sum_{(i,z) \in A, i \in entry_{z}} x_{i,z,t}^{water} + \sum_{i \in N, i-{S,Z}} y_{i,t=Tm}^{water} , \forall s \in S \subset N, \forall z \in Z \subset N\]</div>
+</p>
+<p>1.3.1. Oil flow balancing (except for initial nodes):</p>
+<p><div class="math notranslate nohighlight">
+\[\sum_{(i,j) \in A, i \in entry_{j}} x_{i,j,t}^{oil} - \sum_{(j,k) \in A, k \in exit_{j}} x_{j,k,t}^{oil} =  y_{j,t}^{oil}, t = 1, \forall j \in O \subset N - {S, Z}\]</div>
+</p>
+<p>1.3.2. Oil flow balancing (except for initial nodes):</p>
+<p><div class="math notranslate nohighlight">
+\[\sum_{(i,j) \in A, i \in entry_{j}} x_{i,j,t}^{oil} - \sum_{(j,k) \in A, k \in exit_{j}} x_{j,k,t}^{oil} =  y_{j,t}^{oil} - y_{j,t-1}^{oil}, t &gt; 1, \forall j \in O \subset N - {S, Z}\]</div>
+</p>
+<p>1.4. Storage water/oil proportions constraints</p>
+<p>1.4.1. Initial nodes:
+<div class="math notranslate nohighlight">
+\[\gamma_{i,t}^{water}*y_{i,t}^{oil} = \gamma_{i,t}^{oil}*y_{i,t}^{water}, \forall i \in S \subset N, \forall t \in T\]</div>
+</p>
+<p>1.4.2. Rest nodes:
+<div class="math notranslate nohighlight">
+\[\sum_{(i,j) \in A, i \in entry_{j}} x_{i,j,t}^{water}*y_{j,t}^{oil} = \sum_{(i,j) \in A, i \in entry_{j}} x^{oil}_{i,j,t}*y^{water}_{j,t}, \forall j \in N - {S}, \forall t \in T\]</div>
+</p>
+<p>1.5.1. Total time oil flow balance:</p>
+<p><div class="math notranslate nohighlight">
+\[\sum_{t \in T}\sum_{(s,j) \in A, j \in exit_{s}} x_{s,j,t}^{oil}  = \sum_{t \in T}\sum_{(i,z) \in A, i \in entry_{z}} x_{i,z,t}^{oil} + \sum_{i \in N, i-{S,Z}} y_{i,t=Tm}^{oil} , \forall s \in S \subset N, \forall z \in Z \subset N\]</div>
+</p>
+</section>
+<section id="capacity-constraints">
+<h3>2. Capacity constraints<a class="headerlink" href="#capacity-constraints" title="Permalink to this heading"></a></h3>
+<p>2.1. Water arcs capacity:</p>
+<p><div class="math notranslate nohighlight">
+\[l_{i,j}^{a}*up_{i,j,t}^{a} \leq  x_{i,j,t}^{water} \leq u_{i,j}^{a}*up_{i,j,t}^{a}, \forall (i,j) \in A - {OA}, \forall t \in T\]</div>
+</p>
+<p>2.2. Water nodes capacity:</p>
+<p><div class="math notranslate nohighlight">
+\[l_{i}^{n} \leq  y_{i,t}^{water} \leq u_{i}^{n}, \forall i \in N - {O}, \forall t \in T\]</div>
+</p>
+<p>2.3. Oil arcs capacity:</p>
+<p><div class="math notranslate nohighlight">
+\[l_{i,j}^{a}*up_{i,j,t}^{a} \leq  x_{i,j,t}^{water} + x_{i,j,t}^{oil} \leq u_{i,j}^{a}*up_{i,j,t}^{a}, \forall (i,j) \in OA \subset A, \forall t \in T\]</div>
+</p>
+<p>2.4. Oil nodes capacity:</p>
+<p><div class="math notranslate nohighlight">
+\[l_{i}^{n} \leq  y_{i,t}^{water} + y_{i,t}^{oil} \leq u_{i}^{n}, \forall i \in O \subset N, \forall t \in T\]</div>
+</p>
+</section>
+<section id="stability-constraints">
+<h3>3. Stability constraints<a class="headerlink" href="#stability-constraints" title="Permalink to this heading"></a></h3>
+<p>3.1. Water Mix Stability:</p>
+<p><div class="math notranslate nohighlight">
+\[x_{i,j,t}^{water} - x_{i,j,t-1}^{water} = x_{i,j,t}^{slack+watermix} - x_{i,j,t}^{slack-watermix}, t &gt; 1, \forall (i,j) \in WMA \subset A\]</div>
+</p>
+<p>3.2. Pond Stability:</p>
+<p><div class="math notranslate nohighlight">
+\[x_{i,j,t}^{activearcpond} - x_{i,j,t-1}^{activearcpond} = x_{i,j,t}^{slack+pond} - x_{i,j,t}^{slack-pond}, t &gt; 1, \forall (i,j) \in PSA \subset A\]</div>
+</p>
+</section>
+<section id="initial-nodes-constraints">
+<h3>4. Initial nodes constraints<a class="headerlink" href="#initial-nodes-constraints" title="Permalink to this heading"></a></h3>
+<p>4.3. Water flow balancing for initial nodes:</p>
+<p><div class="math notranslate nohighlight">
+\[y_{s,t}^{water} + \sum_{(s,j) \in A, j \in exit_{s}} x_{s,j,t}^{water} = \gamma_{s,t}^{water}, t = 1, \forall s \in S \subset N\]</div>
+</p>
+<p>4.4. Water flow balancing for initial nodes:</p>
+<p><div class="math notranslate nohighlight">
+\[y_{s,t}^{water} + \sum_{(s,j) \in A, j \in exit_{s}} x_{s,j,t}^{water} = \gamma_{s,t}^{water} + y_{s,t-1}^{water}, t &gt; 1, \forall s \in S \subset N\]</div>
+</p>
+<p>4.5. Water flow balancing for initial nodes:</p>
+<p><div class="math notranslate nohighlight">
+\[y_{s,t}^{oil} + \sum_{(s,j) \in A, j \in exit_{s}} x_{s,j,t}^{oil} = \gamma_{s,t}^{oil}, t = 1, \forall s \in S \land O \subset N\]</div>
+</p>
+<p>4.6. Water flow balancing for initial nodes:</p>
+<p><div class="math notranslate nohighlight">
+\[y_{s,t}^{oil} + \sum_{(s,j) \in A, j \in exit_{s}} x_{s,j,t}^{oil} = \gamma_{s,t}^{oil} + y_{s,t-1}^{oil}, t &gt; 1, \forall s \in S \land O \subset N\]</div>
+</p>
+<p>4.7.1. Non empty water balancing for initial nodes:</p>
+<p><div class="math notranslate nohighlight">
+\[y_{i,t}^{water} \geq 0, \forall i \in S \subset N, t = 1\]</div>
+</p>
+<p>4.7.2. Non empty water balancing for initial nodes:</p>
+<p><div class="math notranslate nohighlight">
+\[y_{i,t}^{water} \geq y_{i,t-1}^{water}, \forall i \in S \subset N, t &gt; 1\]</div>
+</p>
+<p>4.8.1. Non empty oil balancing for initial nodes:</p>
+<p><div class="math notranslate nohighlight">
+\[y_{i,t}^{oil} \geq 0, \forall i \in Z \subset N, t = 1\]</div>
+</p>
+<p>4.8.2. Non empty oil balancing for initial nodes:</p>
+<p><div class="math notranslate nohighlight">
+\[y_{i,t}^{oil} \geq y_{i,t-1}^{oil}, \forall i \in Z \subset N, t &gt; 1\]</div>
+</p>
+</section>
+<section id="splitter-nodes">
+<h3>5. Splitter nodes<a class="headerlink" href="#splitter-nodes" title="Permalink to this heading"></a></h3>
+<p>5.1. Splitter nodes without loss tank (contaminant balance):</p>
+<p><div class="math notranslate nohighlight">
+\[x_{i,j,t}^{c} = x_{j,k,t}^{c}, \forall (i,j),(j,k) \in A, \forall i \in entry_{j}, \forall k \in exit_{j}, \forall j \in SWOLT \subset SU \subset N, \forall c \in C, \forall t \in T\]</div>
+</p>
+<p>5.1.2. Splitter nodes with loss tank (contaminant balance):</p>
+<p><div class="math notranslate nohighlight">
+\[bar_{to}^{lts} * \sum_{(i,j) \in A, i \in entry_{j}} x_{i,j,t}^{water}*x_{i,j,t}^{c} = bar_{to}^{lts} * \sum_{(j,k) \in A, k \in exit_{j} - {LTU}} x_{j,k,t}^{water}*x_{j,k,t}^{c}, \forall j \in SWLT \subset SU \subset N, \forall c \in C, \forall t \in T\]</div>
+</p>
+<p>5.2. Water fixed splitter constraint
+<div class="math notranslate nohighlight">
+\[x_{j,k,t}^{water} = (\sum_{(i,j) \in A, i \in entry_{j}} x_{i,j,t}^{water} - y_{j,t}^{water})*fp_{j,k}^{split}, \forall j \in SU \subset N, \forall (j,k) \in FSA \subset A, \forall k \in exit_{j}, \forall t \in T\]</div>
+</p>
+<p>5.3. Oil fixed splitter constraint
+<div class="math notranslate nohighlight">
+\[x_{j,k,t}^{oil} = (\sum_{(i,j) \in OA, i \in entry_{j}} x_{i,j,t}^{oil} - y_{j,t}^{oil})*fp_{j,k}^{split}, \forall j \in SU \subset N, \forall (j,k) \in FSA \subset A, \forall k \in exit_{j}, \forall t \in T\]</div>
+</p>
+</section>
+<section id="mixer-nodes">
+<h3>6. Mixer nodes<a class="headerlink" href="#mixer-nodes" title="Permalink to this heading"></a></h3>
+<p>6.1. Mixer nodes (contaminant balance):</p>
+<p><div class="math notranslate nohighlight">
+\[bar_{to}^{lts} * \sum_{(i,j) \in A, i \in entry_{j}} x_{i,j,t}^{water}*x_{i,j,t}^{c} = bar_{to}^{lts} * \sum_{(j,k) \in A, k \in exit_{j}} x_{j,k,t}^{water}*x_{j,k,t}^{c}, \forall j \in MU \subset N, \forall c \in C, \forall t \in T\]</div>
+</p>
+<p>6.2. Boiler nodes (contaminant balance):</p>
+<p><div class="math notranslate nohighlight">
+\[bar_{to}^{lts} * \sum_{(i,j) \in A, i \in entry_{j}} x_{i,j,t}^{water}*x_{i,j,t}^{c} = bar_{to}^{lts} * \sum_{(j,k) \in A, k \in exit_{j}} x_{j,k,t}^{water}*x_{j,k,t}^{c}, \forall j \in BU \subset N, \forall c \in C, \forall t \in T\]</div>
+</p>
+<p>6.3. Cooling tower nodes (contaminant balance):</p>
+<p><div class="math notranslate nohighlight">
+\[bar_{to}^{lts} * \sum_{(i,j) \in A, i \in entry_{j}} x_{i,j,t}^{water}*x_{i,j,t}^{c} = bar_{to}^{lts} * \sum_{(j,k) \in A, k \in exit_{j}} x_{j,k,t}^{water}*x_{j,k,t}^{c}, \forall j \in CTU \subset N, \forall c \in C, \forall t \in T\]</div>
+</p>
+</section>
+<section id="process-nodes">
+<h3>7. Process nodes<a class="headerlink" href="#process-nodes" title="Permalink to this heading"></a></h3>
+<p>7.1. Process nodes (contaminant balance):</p>
+<p><div class="math notranslate nohighlight">
+\[x_{i,j,t}^{c}*x_{i,j,t}^{water} + \lambda_{j}^{c} = x_{j,k,t}^{c}*x_{j,k,t}^{water}, \forall (i,j),(j,k) \in A, \forall i \in entry_{j}, \forall k \in exit_{j}, \forall j \in PU \subset N, \forall c \in C, \forall t \in T\]</div>
+</p>
+<p>7.2. Initial nodes (contaminant balance):</p>
+<p><div class="math notranslate nohighlight">
+\[x_{s,j,t}^{c} = \gamma_{s,t}^{c}, \forall s \in S \subset N, \forall (s,j) \in A, \forall j \in exit_{s}, \forall c \in C, \forall t \in T\]</div>
+</p>
+</section>
+<section id="treatment-nodes">
+<h3>8. Treatment nodes<a class="headerlink" href="#treatment-nodes" title="Permalink to this heading"></a></h3>
+<p>8.1. Treatment nodes (contaminant balance):</p>
+<p><div class="math notranslate nohighlight">
+\[x_{i,j,t}^{c}*(1-\omega_{j}^{c}) = x_{j,k,t}^{c}, \forall (i,j),(j,k) \in A, \forall i \in entry_{j}, \forall k \in  exit_{j}, \forall j \in TU \subset N, \forall c \in C, \forall t \in T\]</div>
+</p>
+</section>
+<section id="oil-treatment-nodes">
+<h3>9. Oil Treatment nodes<a class="headerlink" href="#oil-treatment-nodes" title="Permalink to this heading"></a></h3>
+<p>9.1. Water fixed treatment constraint
+<div class="math notranslate nohighlight">
+\[x_{j,k,t}^{water} = (\sum_{(i,j) \in A, i \in entry_{j}} x_{i,j,t}^{water} - y_{j,t}^{water})*fwp_{j,k}^{a}, \forall j \in OTU \subset N, \forall (j,k) \in FOTA \subset A, \forall k \in exit_{j}, \forall t \in T\]</div>
+</p>
+<p>9.2. Oil fixed treatment  constraint
+<div class="math notranslate nohighlight">
+\[x_{j,k,t}^{oil} = (\sum_{(i,j) \in OA, i \in entry_{j}} x_{i,j,t}^{oil} - y_{j,t}^{oil})*fop_{j,k}^{a}, \forall j \in OTU \subset N, \forall (j,k) \in FOTA \subset A, \forall k \in exit_{j}, \forall t \in T\]</div>
+</p>
+</section>
+<section id="tank-nodes">
+<h3>10. Tank nodes<a class="headerlink" href="#tank-nodes" title="Permalink to this heading"></a></h3>
+<p>10.1.1. Tank nodes (Initial contaminant balance):</p>
+<p><div class="math notranslate nohighlight">
+\[\delta_{j}^{water}*\nabla_{j}^{c} + y_{j,t}^{c}*y_{j,t}^{water} = x_{i,j,t}^{c}*x_{i,j,t}^{water} - x_{j,k,t}^{c}*x_{j,k,t}^{water}, t = 1, \forall (i,j),(j,k) \in A, \forall i \in entry_{j}, \forall k \in exit_{j}, \forall c \in C, \forall j \in STU \subset N\]</div>
+</p>
+<p>10.1.2. Tank nodes (contaminant balance):</p>
+<p><div class="math notranslate nohighlight">
+\[y_{j,t}^{c}*y_{j,t}^{water} - y_{j,t-1}^{c}*y_{j,t-1}^{water} = x_{i,j,t}^{c}*x_{i,j,t}^{water} - x_{j,k,t}^{c}*x_{j,k,t}^{water}, t &gt; 1, \forall (i,j),(j,k) \in A, \forall i \in entry_{j}, \forall k \in exit_{j}, \forall c \in C, \forall j \in STU \subset N\]</div>
+</p>
+<p>10.2.1. Tank nodes (contaminant balance assumption):</p>
+<p><div class="math notranslate nohighlight">
+\[x_{j,k,t}^{c} = y_{j,t-1}^{c}, t &gt; 1, \forall c \in C, \forall (j,k) \in A, \forall k \in exit_{j}, \forall j \in STU \subset N\]</div>
+</p>
+<p>10.2.2. Tank nodes (contaminant balance assumption):</p>
+<p><div class="math notranslate nohighlight">
+\[x_{j,k,t}^{c} = x_{i,j,t}^{c}, t = 1, \forall c \in C, \forall (i,j),(j,k) \in A, \forall i \in entry_{j}, \forall k \in exit_{j}, \forall j \in STU \subset N\]</div>
+</p>
+<p>10.3. Other nodes (contaminant balance):</p>
+<p><div class="math notranslate nohighlight">
+\[x_{j,k,t}^{c} = x_{i,j,t}^{c}, \forall (i,j),(j,k) \in A, \forall c \in C, \forall t \in T, \forall i \in entry_{j}, \forall k \in exit_{j}, \forall j \notin {S,Z,PU,TU,SU,MU,BU,CTU,STU,LTU,POU}\]</div>
+</p>
+</section>
+<section id="ending-nodes-balance-constraints">
+<h3>11. Ending nodes balance constraints<a class="headerlink" href="#ending-nodes-balance-constraints" title="Permalink to this heading"></a></h3>
+<p>11.1.1. Non empty water balancing for ending nodes:</p>
+<p><div class="math notranslate nohighlight">
+\[y_{i,t}^{water} \geq 0, \forall i \in Z \subset N, t = 1\]</div>
+</p>
+<p>11.1.2. Non empty water balancing for ending nodes:</p>
+<p><div class="math notranslate nohighlight">
+\[y_{i,t}^{water} \geq y_{i,t-1}^{water}, \forall i \in Z \subset N, t &gt; 1\]</div>
+</p>
+<p>11.1.3. Non empty oil balancing for initial nodes:</p>
+<p><div class="math notranslate nohighlight">
+\[y_{i,t}^{oil} \geq 0, \forall i \in Z \subset N, t = 1\]</div>
+</p>
+<p>11.1.4. Non empty oil balancing for initial nodes:</p>
+<p><div class="math notranslate nohighlight">
+\[y_{i,t}^{oil} \geq y_{i,t-1}^{oil}, \forall i \in Z \subset N, t &gt; 1\]</div>
+</p>
+<p>11.2.1. Ending nodes water balance below demand:</p>
+<p><div class="math notranslate nohighlight">
+\[\sum_{(i,j) \in A, i \in entry_{j}} x_{i,j,t}^{water} \leq \kappa_{j,t}^{water}, \forall j \in Z \subset N - {O}, \forall t \in T\]</div>
+</p>
+<p>11.2.2. Ending nodes oil balance below demand:</p>
+<p><div class="math notranslate nohighlight">
+\[\sum_{(i,j) \in A, i \in entry_{j}} x_{i,j,t}^{oil} \leq \kappa_{j,t}^{oil}, \forall j \in Z \land O \subset N, \forall t \in T\]</div>
+</p>
+</section>
+<section id="loss-tank-nodes">
+<h3>12. Loss tank nodes<a class="headerlink" href="#loss-tank-nodes" title="Permalink to this heading"></a></h3>
+<p>12.1.1. Before loss tanks (contaminant balance):</p>
+<p><div class="math notranslate nohighlight">
+\[x_{i,j,t}^{c} = 0, \forall c \in C, \forall (i,j) \in A, \forall i \in entry_{j}, \forall t \in T, \forall j \in LTU \subset N\]</div>
+</p>
+<p>12.1.2. Loss tank nodes (contaminant balance):</p>
+<p><div class="math notranslate nohighlight">
+\[y_{j,t}^{c} = 0, \forall c \in C, \forall t \in T, \forall j \in LTU \subset N\]</div>
+</p>
+</section>
+<section id="positive-energy-constraints">
+<h3>13. Positive energy constraints<a class="headerlink" href="#positive-energy-constraints" title="Permalink to this heading"></a></h3>
+<p>13.1. Pump nodes, Positive energy: to force binary to be 1 if continuous is positive</p>
+<p><div class="math notranslate nohighlight">
+\[y_{p,t}^{active} \leq 1 + \sum_{(i,p) \in A, i \in entry_{p}} x_{i,p,t}^{water} - \epsilon, \forall p \in P \subset N, \forall t \in T\]</div>
+</p>
+<p>13.2. Pump nodes, Positive energy: to force binary to be 0 if continuous is 0</p>
+<p><div class="math notranslate nohighlight">
+\[\sum_{(i,p) \in A, i \in entry_{p}} x_{i,p,t}^{water} \leq M*y_{p,t}^{active}, \forall p \in P \subset N, \forall t \in T\]</div>
+</p>
+<p>13.3. Positive energy</p>
+<p><div class="math notranslate nohighlight">
+\[y_{p,t}^{elec} \geq \psi * y_{p,t}^{active}, \forall p \in P \subset N, \forall t \in T\]</div>
+</p>
+</section>
+<section id="pond-nodes">
+<h3>14. Pond nodes<a class="headerlink" href="#pond-nodes" title="Permalink to this heading"></a></h3>
+<p>14.1.1. Pond nodes (Initial contaminant balance):</p>
+<p><div class="math notranslate nohighlight">
+\[bar_{to}^{lts} * (\delta_{j}^{water}*\nabla_{j}^{c} + y_{j,t}^{c}*y_{j,t}^{water}) = bar_{to}^{lts} * (\sum_{(i,j) \in A, i \in entry_{j}} x_{i,j,t}^{c}*x_{i,j,t}^{water} - \sum_{(j,k) \in A, k \in exit_{j} - {LTU}} x_{j,k,t}^{c}*x_{j,k,t}^{water}), t = 1, \forall c \in C, \forall j \in POU \subset N\]</div>
+</p>
+<p>14.1.2. Pond nodes (Initial contaminant balance):</p>
+<p><div class="math notranslate nohighlight">
+\[bar_{to}^{lts} * (y_{j,t}^{c}*y_{j,t}^{water} - y_{j,t-1}^{c}*y_{j,t-1}^{water}) = bar_{to}^{lts} * (\sum_{(i,j) \in A, i \in entry_{j}} x_{i,j,t}^{c}*x_{i,j,t}^{water} - \sum_{(j,k) \in A, k \in exit_{j} - {LTU}} x_{j,k,t}^{c}*x_{j,k,t}^{water}), t &gt; 1, \forall c \in C, \forall j \in POU \subset N\]</div>
+</p>
+<p>14.2.1. Pond nodes (contaminant balance assumption):</p>
+<p><div class="math notranslate nohighlight">
+\[x_{j,k,t}^{c} = y_{j,t-1}^{c}, t &gt; 1, \forall c \in C, \forall (j,k) \in A, \forall k \in exit_{j}, \forall j \in POU \subset N - {LTU}\]</div>
+</p>
+<p>14.3.1. Evaporation loss over content constraint
+<div class="math notranslate nohighlight">
+\[y_{j,t}^{water}*\xi_{j}^{water} = \sum_{(j,k) \in A, k \in exit_{j} \cup LTU} x_{j,k,t}^{water}, \forall j \in POU \subset N, \forall t \in T\]</div>
+</p>
+</section>
+<section id="stability-linking-binary-and-continuous-decision-variables">
+<h3>15. Stability - Linking binary and continuous decision variables<a class="headerlink" href="#stability-linking-binary-and-continuous-decision-variables" title="Permalink to this heading"></a></h3>
+<p>15.1. Arcs, Water Mix Stability: to force binary to be 0 if continuous is 0</p>
+<p><div class="math notranslate nohighlight">
+\[x_{i,j,t}^{activearcwatermix} \leq 1 + x_{i,j,t}^{water} - \epsilon, \forall (i,j) \in WMA, \forall t \in T\]</div>
+</p>
+<p>15.2. Arcs, Water Mix Stability: to force binary to be 1 if continuous is positive</p>
+<p><div class="math notranslate nohighlight">
+\[x_{i,j,t}^{water} \leq M^{arcs} * x_{i,j,t}^{activearcwatermix}, \forall (i,j) \in WMA, \forall t \in T\]</div>
+</p>
+<p>15.3. Arcs, Pond Stability: to force binary to be 0 if continuous is 0</p>
+<p><div class="math notranslate nohighlight">
+\[x_{i,j,t}^{activearcpond} \leq 1 + x_{i,j,t}^{water} - \epsilon, \forall (i,j) \in PSA, \forall t \in T\]</div>
+</p>
+<p>15.4. Arcs, Pond Stability: to force binary to be 1 if continuous is positive</p>
+<p><div class="math notranslate nohighlight">
+\[x_{i,j,t}^{water} \leq M^{arcs} * x_{i,j,t}^{activearcpond}, \forall (i,j) \in PSA, \forall t \in T\]</div>
+</p>
+</section>
+<section id="nominal-values">
+<h3>16. Nominal values<a class="headerlink" href="#nominal-values" title="Permalink to this heading"></a></h3>
+<p>16.1. Positive difference (nominal values):</p>
+<p><div class="math notranslate nohighlight">
+\[x_{i,j,t}^{delta} \geq x_{i,j,t}^{water} - \alpha_{i,j,t}^{nominal}, \forall (i,j) \in A, \forall i \in entry_{j}, \forall t \in T\]</div>
+</p>
+<p>16.2. Negative difference (nominal values):</p>
+<p><div class="math notranslate nohighlight">
+\[x_{i,j,t}^{delta} \geq \alpha_{i,j,t}^{nominal} - x_{i,j,t}^{water}, \forall (i,j) \in A, \forall i \in entry_{j}, \forall t \in T\]</div>
+</p>
+</section>
+<section id="nonnegative-constraints">
+<h3>17. Nonnegative constraints<a class="headerlink" href="#nonnegative-constraints" title="Permalink to this heading"></a></h3>
+<p><div class="math notranslate nohighlight">
+\[x_{i,j,t}^{water} \geq 0, \forall (i,j) \in A, \forall t \in T\]</div>
+
+<div class="math notranslate nohighlight">
+\[x_{i,j,t}^{oil} \geq 0, \forall (i,j) \in OA \subset A, \forall t \in T\]</div>
+
+<div class="math notranslate nohighlight">
+\[x_{i,j,t}^{c} \geq 0, \forall (i,j) \in A, \forall c \in C, \forall t \in T\]</div>
+
+<div class="math notranslate nohighlight">
+\[x_{i,j,t}^{delta} \geq 0, \forall (i,j) \in A, \forall t \in T\]</div>
+
+<div class="math notranslate nohighlight">
+\[y_{i,t}^{water} \geq 0, \forall i \in N, \forall t \in T\]</div>
+
+<div class="math notranslate nohighlight">
+\[y_{i,t}^{oil} \geq 0, \forall i \in O \subset N, \forall t \in T\]</div>
+
+<div class="math notranslate nohighlight">
+\[y_{i,t}^{elec} \geq 0, \forall i \in P \subset N, \forall t \in T\]</div>
+
+<div class="math notranslate nohighlight">
+\[y_{i,t}^{c} \geq 0, \forall i \in N, \forall c \in C, \forall t \in T\]</div>
+
+<div class="math notranslate nohighlight">
+\[y_{i,t}^{active} \in {0,1},\forall i \in P \subset N, \forall t \in T\]</div>
+
+<div class="math notranslate nohighlight">
+\[x_{i,j,t}^{slack+watermix} \geq 0, \forall (i,j) \in WMA, \forall t \in T\]</div>
+
+<div class="math notranslate nohighlight">
+\[x_{i,j,t}^{slack-watermix} \geq 0, \forall (i,j) \in WMA, \forall t \in T\]</div>
+
+<div class="math notranslate nohighlight">
+\[x_{i,j,t}^{slack+pond} \geq 0, \forall (i,j) \in PSA, \forall t \in T\]</div>
+
+<div class="math notranslate nohighlight">
+\[x_{i,j,t}^{slack-pond} \geq 0, \forall (i,j) \in PSA, \forall t \in T\]</div>
+
+<div class="math notranslate nohighlight">
+\[x^{activearcwatermix}*{i,j,t} \in {0,1},\forall (i,j) \in WMA, \forall t \in T\]</div>
+
+<div class="math notranslate nohighlight">
+\[x^{activearcpond}*{i,j,t} \in {0,1},\forall (i,j) \in PSA, \forall t \in T\]</div>
+</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../opt_models.html" class="btn btn-neutral float-left" title="Optimization Models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="injection.html" class="btn btn-neutral float-right" title="Injection" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Accenture.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

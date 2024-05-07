@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Injection &mdash; Ecopetrol Water Management 2022 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]]}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Predictive Models" href="../pred_models.html" />
+    <link rel="prev" title="Water Management Model - Stability Features" href="treatment.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> Ecopetrol Water Management
+          </a>
+              <div class="version">
+                1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../model_doc.html">Model Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../opt_models.html">Optimization Models</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="treatment.html">Water Management Model - Stability Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="treatment.html#treatment">Treatment</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Injection</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#sets">Sets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#variables">Variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#objective-function">Objective Function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#constraints">Constraints</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pred_models.html">Predictive Models</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../developer_doc.html">Developer Documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Ecopetrol Water Management</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../model_doc.html">Model Documentation</a></li>
+          <li class="breadcrumb-item"><a href="../opt_models.html">Optimization Models</a></li>
+      <li class="breadcrumb-item active">Injection</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/pages/optimization/injection.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="injection">
+<h1>Injection<a class="headerlink" href="#injection" title="Permalink to this heading"></a></h1>
+<p>In this system, we have a fixed daily water injection deman that must be disposed in sub-surface. We may use three types of assets:</p>
+<ul class="simple">
+<li><p>Injection pumps (8 in this case but problem is formulated with no contrains).</p></li>
+<li><p>Wellhead: pipeline system that separate pump flow Trains.</p></li>
+<li><p>Inyection wells: Disposition points.</p></li>
+</ul>
+<p>We have some rules to know in this problem, there’s a few asumptions as well:</p>
+<ul class="simple">
+<li><p>We assume incompressible flow.</p></li>
+<li><p>Choke flow will not be modeled.</p></li>
+<li><p>The pump must be conected only to one wellhead.</p></li>
+<li><p>The injection well can be conected to one or more wellhead.</p></li>
+<li><p>Every pump belonging to a wellhead share their outcoming pressure.</p></li>
+<li><p>Total pump flow must be equal to daily demand, which means that the daily demand is the water produced in the CPF.</p></li>
+<li><p>Total well flow must be equal to daily demand, which means that the daily demand is the water produced in the CPF.</p></li>
+<li><p>We want to minimize cost function wich is pump energy consumption.</p></li>
+</ul>
+<section id="sets">
+<h2>Sets<a class="headerlink" href="#sets" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(N\)</span> : Set of nodes in the network</p></li>
+<li><p><span class="math notranslate nohighlight">\(A\)</span>: Set of network arcs. <span class="math notranslate nohighlight">\(A \subset  N \times N\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(S\)</span>: Set of start nodes. <span class="math notranslate nohighlight">\(S \subset N\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(T\)</span>: Set of terminal nodes. <span class="math notranslate nohighlight">\(T \subset N\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(RE\)</span>: Set of nodes that are used for reuse. <span class="math notranslate nohighlight">\(RE \subset T\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(P\)</span>: Set of nodes that are used as pumps of the network system. <span class="math notranslate nohighlight">\(P \subset N\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(W\)</span>: Set of injection wells.  <span class="math notranslate nohighlight">\(W \subset N\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(PI\)</span>: Set of injection pumps. <span class="math notranslate nohighlight">\(PI \subset P\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(WH\)</span>: Set of wellheads. <span class="math notranslate nohighlight">\(WH \subset N\)</span></p></li>
+</ul>
+</section>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(MINC_{a \in A}\)</span>: Minimun capacity of the arc.</p></li>
+<li><p><span class="math notranslate nohighlight">\(MAXC_{a \in A}\)</span>: Maximun capacity of the arc.</p></li>
+<li><p><span class="math notranslate nohighlight">\(c_{n \in N}\)</span>: Are the total of other cost per node n such as treatment substances in the node n. It’s worth to mention that in the code we assign the cost to the entry arcs.</p></li>
+<li><p><span class="math notranslate nohighlight">\(inf_{s \in S}\)</span>: Total flow that enters a start node.</p></li>
+<li><p><span class="math notranslate nohighlight">\(ce\)</span>: Is the energy cost per KWh</p></li>
+<li><p><span class="math notranslate nohighlight">\(pri_{p \in P }\)</span>: Is the inflow pressure in pump p.</p></li>
+<li><p><span class="math notranslate nohighlight">\(pro_{p \in P }\)</span>: Is the outflow pressure in pump p.</p></li>
+<li><p><span class="math notranslate nohighlight">\(II_{w \in W}\)</span>: Injectivity index for well w.</p></li>
+<li><p><span class="math notranslate nohighlight">\(pfract_{w \in W}\)</span>: Fracture pressure for well w.</p></li>
+<li><p><span class="math notranslate nohighlight">\(pdrop_{w \in W}\)</span>: Pressures drops in each well. It’s represented as a linear function <span class="math notranslate nohighlight">\(\mathbb{R} \rightarrow \mathbb{R}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(elc_{i \in N}\)</span>: Is the electricity comsumption for node i.</p></li>
+<li><p><span class="math notranslate nohighlight">\(MIWP_{pi \in PI}\)</span>: Min-well-per-pump, Minimum amount of WH that needs to be conected to an injection pump pi.</p></li>
+<li><p><span class="math notranslate nohighlight">\(MXWP_{pi \in PI}\)</span>: Max-well-per-pump, Maximium amount of WH that needs to be conected to an injection pump pi.</p></li>
+<li><p><span class="math notranslate nohighlight">\(LCUR_{pi \in PI}\)</span>: Set of functions that determinate an under limit for the pump flow and pressure out. The functions are from <span class="math notranslate nohighlight">\(\mathbb{R} \rightarrow \mathbb{R}\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(UCUR_{pi \in PI}\)</span>: Set of functions that determinate an upper limit for the pump flow and pressure out. The functions are from <span class="math notranslate nohighlight">\(\mathbb{R} \rightarrow \mathbb{R}\)</span>.</p></li>
+</ul>
+</section>
+<section id="variables">
+<h2>Variables<a class="headerlink" href="#variables" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(x_{i,j}\)</span>: Is the amount of fluid send in arc <span class="math notranslate nohighlight">\((i,j) \in A\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\alpha_{i,j}\)</span>: Defines if the arc is used to send fluid from i to j, <span class="math notranslate nohighlight">\(\forall (i,j) \in A\)</span></p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\begin{split}\alpha_{i,j} =
+    \begin{cases}
+    1: If \space x_{i,j}&gt;0\\
+    0: Otherwise
+    \end{cases}\end{split}\]</div>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(PRO_{n \in N}\)</span>: Is the amount of pressure for the arcs that exit’s n.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In an arc <span class="math notranslate nohighlight">\(A\)</span> that goes from <span class="math notranslate nohighlight">\(i \rightarrow j\)</span>, the pressure of the exit of <span class="math notranslate nohighlight">\(i\)</span> equals the pressure of the arc <span class="math notranslate nohighlight">\(i,j\)</span> and that pressure, is equals to the pressure at entry node <span class="math notranslate nohighlight">\(j\)</span>. Also, all the arcs that enters the same node have the same pressure.</p>
+</div>
+</section>
+<section id="objective-function">
+<h2>Objective Function<a class="headerlink" href="#objective-function" title="Permalink to this heading"></a></h2>
+<p><strong>Minimize the cost of the network</strong></p>
+<div class="math notranslate nohighlight">
+\[\ Min\space \ \sum_{p \in P}  elc_{p} \times ce + \sum_{(i,j) \in A} c_{j} \times x_{i,j}\]</div>
+<p>Where <span class="math notranslate nohighlight">\(elc_{p \in P}\)</span> is a function of <span class="math notranslate nohighlight">\(X\)</span> define in the constraints</p>
+<p><strong>Maxime reuse of water</strong></p>
+<div class="math notranslate nohighlight">
+\[\ Max \space  \sum_{re \in RE} \sum_{(i, re) \in A} x_{i,re}\]</div>
+<p><strong>Hierarchical</strong></p>
+<p>The idea of this objective function is to maximize the reuse and then with that reuse fixed try to minimize the cost. One way to do this is:</p>
+<div class="math notranslate nohighlight">
+\[\ Max \space (\sum_{re \in RE} \sum_{(i, re) \in A} x_{i,re}, -\sum_{p \in P}  elc_{p} \times ce - \sum_{(i,j) \in A} c_{j} \times x_{i,j})\]</div>
+<p>The order relation between pairs used is the lexicographical.</p>
+</section>
+<section id="constraints">
+<h2>Constraints<a class="headerlink" href="#constraints" title="Permalink to this heading"></a></h2>
+<p><strong>Flow Balance</strong></p>
+<div class="math notranslate nohighlight">
+\[\sum_{(i,n) \in A}x_{i, n}  = \sum_{(n,j) \in A} x_{n, j} \space \forall n \in N - (S \cup T)\]</div>
+<p>Besides, start nodes needs a special treatment for flow balancing:</p>
+<div class="math notranslate nohighlight">
+\[inf_s  = \sum_{(s,j) \in A} x_{s, j} \space \forall s \in S\]</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Notice that the terminal nodes don’t need any constraint, due to the fact that they don’t have any outgoing arcs.</p>
+</div>
+<p><strong>Between limits</strong>
+The fluid that pass through each arc should respect it’s limits.</p>
+<div class="math notranslate nohighlight">
+\[MINC_{i,j} \leq x_{i,j} \leq MAXC_{i,j} \space \forall (i,j) \in A\]</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We’ll use a notation abuse where <span class="math notranslate nohighlight">\(MINC_{(i,j)} = MINC_{i,j}\)</span>, and the same for all other parameters.</p>
+</div>
+<p><strong>Cost function</strong></p>
+<p>To define the energy consumption for pump p (<span class="math notranslate nohighlight">\(elec_{p}\)</span>), first we’ll define a function:</p>
+<div class="math notranslate nohighlight">
+\[rpm(x, p) = a x + b p + c\]</div>
+<p>Where <span class="math notranslate nohighlight">\(a,b,c \in \mathbb{R}\)</span> are constants calculated before-hand for each pump. Also, <span class="math notranslate nohighlight">\(x, p\)</span> will refer to the amount of fluid that pass trough the pump and the delta of the pressure respectively.</p>
+<p>Now, let’s define another two functions <span class="math notranslate nohighlight">\(\phi_1, \phi_2\)</span>, that will summarize the energy consumption.</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\phi_1(x, p) = a_1 x + b_1 p + c_1rpm(x, p) + d_1\\\phi_2(x, p) = a_2 x + b_2 p + c_2\end{aligned}\end{align} \]</div>
+<p>As before, <span class="math notranslate nohighlight">\(a_1, b_1, c_1, d_1, a_2, b_2, c_2 \in \mathbb{R}\)</span> are constants calculated before-hand for each pump. Observe that this is nothing more than a linear interpolation.</p>
+<p>We are now in condition to define <span class="math notranslate nohighlight">\(elec_p\)</span> :</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}elec_p=
+    \begin{cases}
+    \phi_1(X_p, \Delta_p): If \space p \in PI\\
+    \phi_2(X_p, \Delta_p): Otherwise
+    \end{cases}\end{split}\]</div>
+<p>Where:</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}X_p = \sum_{(i,p) \in A}{x_{i,p}}\\\Delta_p = PRO_p - pri_p\end{aligned}\end{align} \]</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>From the literatue of efficency in pumps, we are not going to have 1 pump <span class="math notranslate nohighlight">\(p\)</span> serving to more than one output node <span class="math notranslate nohighlight">\(k\)</span>.</p>
+</div>
+<p>Also, notice that not all the constants mentioned are necessary for each pump.</p>
+<p><strong>Active arc constraint</strong></p>
+<p>To make <span class="math notranslate nohighlight">\(\alpha_{i,j}\)</span> be 1 for every <span class="math notranslate nohighlight">\(x_{i,j} &gt; 0\)</span>, we add a contraint using a big number (<span class="math notranslate nohighlight">\(M\)</span>):</p>
+<div class="math notranslate nohighlight">
+\[x_{i,j} \leq M \alpha_{i,j} \space \forall (i,j) \in A\]</div>
+<p>Where M can be restricted based on the maximum capacity of the network assets. Also, when <span class="math notranslate nohighlight">\(x_{i,j}=0\)</span> then <span class="math notranslate nohighlight">\(\alpha_{i,j}\)</span> can be 0 or 1 but as <span class="math notranslate nohighlight">\(\alpha\)</span> is part of the objective function which is a minimization problem then always is going to be 0 (right now this is not the case).</p>
+<p><strong>Injection wells</strong></p>
+<p>In oil industry we modeled the flow rate in each well using a Injection Index variable (<span class="math notranslate nohighlight">\(II_{w}\)</span>) that cames from well tests made in the past. So, the relation of capacity between pressure and fluid for each well can be model as follows:</p>
+<p>General:</p>
+<div class="math notranslate nohighlight">
+\[Q=II \times P\]</div>
+<p>Model:</p>
+<div class="math notranslate nohighlight">
+\[\sum_{(wh,w) \in A} x_{wh,w} = II_{w} PRO'_{w}, \forall w \in W \subset N\]</div>
+<p>Notice that we are no talking about <span class="math notranslate nohighlight">\(PRO_w\)</span>, this is because we need to considere the drop of pressure.</p>
+<p>Therefore, the pressure to be discharged in each well can be model as follow:</p>
+<div class="math notranslate nohighlight">
+\[PRO_{w}=\frac{X_w} {II_{w}} + pdrop_w(X_w), \forall w \in W\]</div>
+<p>Where:</p>
+<div class="math notranslate nohighlight">
+\[X_w = \sum_{(wh,w) \in A} x_{wh,w}\]</div>
+<p>The injection pressure in each well must be bellow the fracture pressure (<span class="math notranslate nohighlight">\(pfract_{w}\)</span>)</p>
+<div class="math notranslate nohighlight">
+\[PRO_{w} \leq pfract_{w}, \space \forall w \in W\]</div>
+<p>Also,there are some assumptions we must take in order to make system soluble.</p>
+<ol class="arabic simple">
+<li><p>We’re going to assume that the pressure in the wellhead (<span class="math notranslate nohighlight">\(PRO_{wh \in WH}\)</span>), will be the maximum between the pressures of every well conected with it. Taking this consideration we can optimize by tunning <span class="math notranslate nohighlight">\(PRO_{w \in WH}\)</span> using the following expression:</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[PRO_{wh} = \max(\{ PRO_w | w \in W \wedge (wh,w) \in A \wedge \alpha_{wh,w}\}), \space \forall wh \in WH\]</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Right now we included the constraint that a wellhead is only connected to one well. It’s similar that the one below.</p>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>An injection pumps (<span class="math notranslate nohighlight">\(PI\)</span>) can only be connected to one (1) wellhead (<span class="math notranslate nohighlight">\(WH\)</span>) and the output pressure of the pump (<span class="math notranslate nohighlight">\(PRO_{p \in PI}\)</span>) is the same as the wellhead (<span class="math notranslate nohighlight">\(PRO_{wh \in WH}\)</span>).</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[MIWP \leq \sum_{(pi, wh)\in A}\alpha_{pi,wh} \leq MXWP \space \forall pi \in PI\]</div>
+<p>And</p>
+<div class="math notranslate nohighlight">
+\[(\forall pi : PI, wh : WH) (\alpha_{pi,wh} = 1 \rightarrow PRO_{pi} = PRO_{wh})\]</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>MXWP and MIWP for now equals 1 to satisfy assumption 2. Now MIWP is equal to 0.</p>
+</div>
+<p><strong>Pressure system</strong></p>
+<p>So far we didn’t talk about the pressure out of the other pumps. We will define them as:</p>
+<div class="math notranslate nohighlight">
+\[PRO_p = pro_p \space \forall p \in P-PI\]</div>
+<p>As for the other nodes, we won’t define its pressures.</p>
+<p><strong>Pump constraints</strong></p>
+<p>There are some constraints that we have to fullfill. These involve the pressure out and the flow through an injection pump. They are the following:</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}(\forall \phi \in LCUR_{pi})(PRO_{pi} \geq \phi(X_{pi})) \space \forall pi \in PI\\(\forall \phi \in UCUR_{pi})(PRO_{pi} \leq \phi(X_{pi})) \space \forall pi \in PI\end{aligned}\end{align} \]</div>
+<p>where:</p>
+<div class="math notranslate nohighlight">
+\[X_{pi} =\sum_{(n,pi) \in A} x_{n,pi}\]</div>
+<p>These constraints are only applied if the fluid going through an injection pump is greater than 0. In other case, the pressure out should be 0.</p>
+<p><strong>No negative</strong></p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}x_{i,j} \in \mathbb{R}^{+} \space\space, \forall (i,j) \in A\\PRO_{i} \in \mathbb{R}^{+} \space\space, \forall (i) \in N\end{aligned}\end{align} \]</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="treatment.html" class="btn btn-neutral float-left" title="Water Management Model - Stability Features" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../pred_models.html" class="btn btn-neutral float-right" title="Predictive Models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Accenture.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
